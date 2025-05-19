@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router";
 import AllDrivers from "./Components/AllDrivers";
 import AllTeams from "./Components/AllTeams";
 import AllRaces from "./Components/AllRaces";
+import Home from "./Components/Home";
 
 export default function App() {
   return (

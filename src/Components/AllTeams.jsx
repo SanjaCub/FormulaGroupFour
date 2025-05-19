@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Loader from "./Components/Loader";
+import Loader from "./Loader";
 
 export default function App() {
 
