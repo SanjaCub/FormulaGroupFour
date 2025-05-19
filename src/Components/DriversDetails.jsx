@@ -1,4 +1,4 @@
-export default function DriverDetails() {
+export default function DriversDetails() {
 
     return(
         <>

@@ -1,4 +1,4 @@
-export default function TeamDetails() {
+export default function TeamsDetails() {
 
     return(
         <>
