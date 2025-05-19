@@ -3,6 +3,9 @@ import AllDrivers from "./Components/AllDrivers";
 import AllTeams from "./Components/AllTeams";
 import AllRaces from "./Components/AllRaces";
 import Home from "./Components/Home";
+import DriversDetails from "./Components/DriversDetails";
+import TeamsDetails from "./Components/TeamsDetails";
+import RacesDetails from "./Components/RacesDetails";
 
 export default function App() {
   return (
@@ -22,6 +25,11 @@ export default function App() {
         <Route path="/drivers" element={<AllDrivers />} />
         <Route path="/teams" element={<AllTeams />} />
         <Route path="/races" element={<AllRaces />} />
+        <Route path="/driverDetails/:driversId" element={<DriversDetails/>} />
+        <Route path="/teamsDetails/:teamsId" element={<TeamsDetails/>} />
+        <Route path="/racesDetails/:racesId" element={<RacesDetails/>} />
+
+
       </Routes>
 
     </Router>
