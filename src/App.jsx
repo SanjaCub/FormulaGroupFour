@@ -1,9 +1,9 @@
-
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router"
 
 function App() {
   return (
     <>
-    Formula
+   
     </>
   )
 }
