@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-// import Loader form "./components/Loader"
+import Loader from "./Components/Loader";
 
 export default function App() {
 
     const [allTeams, setAllTeams] = useState([]);
-    // const [isLoading, setIsLoading] = useState (true);
+    const [isLoading, setIsLoading] = useState (true);
 
     useEffect(() => {
         getAllTeams();
@@ -14,14 +14,14 @@ export default function App() {
     const getAllTeams = async () => {
         const response = await axios.get("http://ergast.com/api/f1/2013/constructorStandings.json");
         console.log(response.data);
-
+        setIsLoading(false);
         setAllTeams(response.data.MRData.StandingsTable.StandingsLists[0].ConstructorStandings);
     };
 
 
-    // if (isLoading) {
-    //   return <Loader />;
-    // }
+    if (isLoading) {
+        return <Loader />
+    }
 
 
     return (

@@ -9,7 +9,7 @@ export default function App() {
 
       <nav>
         <ul>
-          <li>Home</li>
+          <li><Link to="/">Home</Link></li>
           <li><Link to="/drivers">All drivers</Link></li>
           <li><Link to="/teams">All teams</Link></li>
           <li><Link to="/races">All races</Link></li>
@@ -17,6 +17,7 @@ export default function App() {
       </nav>
 
       <Routes>
+        <Route path="/" element={<Home/>} />
         <Route path="/drivers" element={<AllDrivers />} />
         <Route path="/teams" element={<AllTeams />} />
         <Route path="/races" element={<AllRaces />} />
