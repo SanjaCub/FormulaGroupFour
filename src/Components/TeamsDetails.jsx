@@ -44,7 +44,7 @@ export default function TeamsDetails() {
           return (
             <div key={teamDetail.Constructor.constructorId}>
               <div>
-                <div>Slika</div>
+                <div><img src={`/images/${teamDetail.Constructor.constructorId}.png`} alt="" /></div>
                 <div>
                   <div>{teamDetail.Constructor.nationality}</div>
                   <h1>{teamDetail.Constructor.name}</h1>
