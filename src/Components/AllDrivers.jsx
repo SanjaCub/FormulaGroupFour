@@ -30,7 +30,7 @@ export default function AllDrivers() {
 
     return (
         <div>
-            <div> <h1>Drivers Champsionship</h1></div>
+            <div><h1>Drivers Champsionship</h1></div>
             <div>
                 <table>
                     <thead>
