@@ -10,7 +10,6 @@ import RacesDetails from "./Components/RacesDetails";
 export default function App() {
   return (
     <Router>
-
       <nav>
         <ul>
           <li><Link to="/">Home</Link></li>
@@ -28,12 +27,7 @@ export default function App() {
         <Route path="/driverDetails/:driversId" element={<DriversDetails/>} />
         <Route path="/teamsDetails/:teamsId" element={<TeamsDetails/>} />
         <Route path="/racesDetails/:racesId" element={<RacesDetails/>} />
-
-
       </Routes>
-
     </Router>
   );
 }
-
-
