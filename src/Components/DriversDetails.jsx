@@ -38,7 +38,7 @@ export default function DriversDetails() {
                 return (
                     <div key={detail.position}>
                         <div>
-                            <div></div>
+                            <div> <img src={`/images/${detail.Driver.driverId}.jpg`} alt="" /></div>
                             <div>
                                 <div></div>
                                 <h1>{detail.Driver.givenName} {detail.Driver.familyName}</h1>
@@ -94,6 +94,7 @@ export default function DriversDetails() {
                     </tbody>
                 </table>
             </div>
+
         </div>
     );
 
