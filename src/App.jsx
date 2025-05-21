@@ -20,7 +20,6 @@ export default function App() {
   const getFlags = async () => {
     const flagsUrl = "https://raw.githubusercontent.com/Dinuks/country-nationality-list/master/countries.json";
     const responseFlag = await axios.get(flagsUrl);
-    console.log("response ", responseFlag.data);
     setFlags(responseFlag.data);
   }
 
@@ -37,8 +36,8 @@ export default function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/drivers" element={<AllDrivers />} />
-        <Route path="/teams" element={<AllTeams />} />
+        <Route path="/drivers" element={<AllDrivers flags={flags}/>} />
+        <Route path="/teams" element={<AllTeams flags={flags}/>} />
         <Route path="/races" element={<AllRaces flags={flags} />} />
         <Route path="/driverDetails/:driversId" element={<DriversDetails />} />
         <Route path="/teamsDetails/:teamsId" element={<TeamsDetails />} />
