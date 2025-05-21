@@ -3,6 +3,7 @@ import axios from "axios";
 import Loader from "./Loader";
 import { useParams } from "react-router";
 import Flag from "react-flagkit";
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 export default function TeamsDetails(props) {
 
@@ -98,7 +99,7 @@ export default function TeamsDetails(props) {
                 </div>
                 <div>
                   <p>History:</p>
-                  <p onClick={() => handleClickWikipedia(teamDetail.Constructor.url)}>Ikonica</p>
+                  <p>  <OpenInNewIcon onClick={() => handleClickWikipedia(teamDetail.Constructor.url)}/></p>
                 </div>
 
               </div>

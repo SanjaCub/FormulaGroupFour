@@ -3,6 +3,7 @@ import axios from "axios";
 import Loader from "./Loader";
 import { useNavigate } from "react-router";
 import Flag from "react-flagkit";
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 export default function App(props) {
 
@@ -65,7 +66,7 @@ export default function App(props) {
 
                                     <td onClick={() => handleClickDetails(team.Constructor.constructorId)}>{team.Constructor.name}</td>
 
-                                    <td onClick={() => handleClickWiki(team.Constructor.url)}>Details</td>
+                                    <td> Details <OpenInNewIcon onClick={() => handleClickWiki(team.Constructor.url)}/></td> 
 
                                     <td>{team.points}</td>
                                 </tr>
