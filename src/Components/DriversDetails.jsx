@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import Loader from "./Loader";
 import { useParams } from "react-router";
 import Flag from "react-flagkit";
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+
 
 export default function DriversDetails(props) {
     const [details, setDetails] = useState([]);
@@ -87,7 +89,7 @@ export default function DriversDetails(props) {
                             </div>
                             <div>
                                 <p>Biography:</p>
-                                <p onClick={() => handleClickWiki(detail.Driver.url)}>Ikonica</p>
+                                <p> <OpenInNewIcon onClick={() => handleClickWiki(detail.Driver.url)}/></p>
                             </div>
                         </div>
                     </div>);
