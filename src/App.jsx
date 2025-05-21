@@ -39,9 +39,9 @@ export default function App() {
         <Route path="/drivers" element={<AllDrivers flags={flags}/>} />
         <Route path="/teams" element={<AllTeams flags={flags}/>} />
         <Route path="/races" element={<AllRaces flags={flags} />} />
-        <Route path="/driverDetails/:driversId" element={<DriversDetails />} />
-        <Route path="/teamsDetails/:teamsId" element={<TeamsDetails />} />
-        <Route path="/racesDetails/:racesId" element={<RacesDetails />} />
+        <Route path="/driverDetails/:driversId" element={<DriversDetails flags={flags}/>} />
+        <Route path="/teamsDetails/:teamsId" element={<TeamsDetails flags={flags}/>} />
+        <Route path="/racesDetails/:racesId" element={<RacesDetails flags={flags}/>} />
       </Routes>
     </Router>
   );
