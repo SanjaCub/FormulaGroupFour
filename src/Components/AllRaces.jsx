@@ -19,7 +19,6 @@ export default function AllRaces(props) {
         const url = "http://ergast.com/api/f1/2013/results/1.json";
         const response = await axios.get(url);
         setRaces(response.data.MRData.RaceTable.Races);
-        console.log("niz ", response.data.MRData.RaceTable);
         setIsLoading(false);
     };
 

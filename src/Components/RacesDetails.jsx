@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import Loader from "./Loader";
 import axios from "axios";
 import { useParams } from "react-router";
+import Flag from "react-flagkit";
 
-export default function RacesDetails() {
-
+export default function RacesDetails(props) {
     const [races, setRaces] = useState([]);
     const [racesDetails, setRacesDetails] = useState([]);
     const [raceResults, setRaceResults] = useState([]);
@@ -22,7 +22,6 @@ export default function RacesDetails() {
         const responseQualifiers = await axios.get(qualifiersUrl);
         const responseResults = await axios.get(resultsUrl);
         setRaces(responseResults.data.MRData.RaceTable.Races);
-        console.log(responseResults.data.MRData.RaceTable.Races);
         setRacesDetails(responseQualifiers.data.MRData.RaceTable.Races[0].QualifyingResults);
         setRaceResults(responseResults.data.MRData.RaceTable.Races[0].Results);
         setIsLoading(false);
@@ -31,6 +30,39 @@ export default function RacesDetails() {
     const handleClickWiki = (url) => {
         const link = `${url}`;
         window.open(link);
+    };
+
+    {/* Info */ }
+
+    const getCountryFlag = (country) => {
+        if (country === "UK") {
+            return "GB"
+        }
+        else if (country === "Korea") {
+            return "KR"
+        }
+
+        else if (country === "UAE") {
+            return "AE"
+        }
+
+        else if (country === "USA") {
+            return "US"
+        }
+        else {
+            const flag = props.flags.find(flag => flag.en_short_name === country);
+            return flag?.alpha_2_code;
+        }
+    };
+
+    const handleClickGrandPrixSecond = (nationality) => {
+        const flag = props.flags.find(flag => flag.nationality.includes(nationality));
+        return flag?.alpha_2_code;
+    };
+
+    const handleClickGrandPrixThird = (nationality) => {
+        const flag = props.flags.find(flag => flag.nationality.includes(nationality));
+        return flag?.alpha_2_code;
     };
 
     if (isLoading) {
@@ -42,9 +74,11 @@ export default function RacesDetails() {
             {races.map((race) => {
                 return (
                     <div key={race.round}>
-                        <div>
-                            <p>Flag</p>
+
+                        <div onClick={() => handleClickGrandPrix(race.round)}>
+                            <Flag country={getCountryFlag(race.Circuit.Location.country)} />
                         </div>
+
                         <div>
                             <h1>{race.raceName}</h1>
                         </div>
@@ -76,7 +110,6 @@ export default function RacesDetails() {
                             <th colSpan={4}>Qualifying Results</th>
                         </tr>
                     </thead>
-
                     <tbody>
                         <tr>
                             <th>Pos</th>
@@ -84,27 +117,24 @@ export default function RacesDetails() {
                             <th>Team</th>
                             <th>Best Time</th>
                         </tr>
-
                         {racesDetails.map((raceDetail) => {
                             const lapTimes = [raceDetail.Q1, raceDetail.Q2, raceDetail.Q3].sort();
-
                             return (
-
                                 <tr key={raceDetail.position}>
                                     <td>{raceDetail.position}</td>
+                                    <td>
+                                        <Flag country={handleClickGrandPrixSecond(raceDetail.Driver.nationality)} />
+                                    </td>
                                     <td>{raceDetail.Driver.familyName}</td>
                                     <td>{raceDetail.Constructor.name}</td>
                                     <td>{lapTimes[0]}</td>
-
                                 </tr>
-
                             );
                         })}
 
                     </tbody>
                 </table>
             </div>
-
 
             {/* Races */}
             <div>
@@ -131,7 +161,7 @@ export default function RacesDetails() {
 
                                 <tr key={raceResult.position}>
                                     <td>{raceResult.position}</td>
-                                    <td>{raceResult.Driver.familyName}</td>
+                                    <td> <Flag country={handleClickGrandPrixThird(raceResult.Driver.nationality)} /> {raceResult.Driver.familyName}</td>
                                     <td>{raceResult.Constructor.name}</td>
                                     <td>{raceResult.Time?.time ? raceResult.Time.time : "No time"}</td>
                                     <td>{raceResult.points}</td>
