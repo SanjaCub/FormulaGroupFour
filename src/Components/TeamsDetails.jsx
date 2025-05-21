@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Loader from "./Loader";
 import { useParams } from "react-router";
+import Flag from "react-flagkit";
 
-export default function TeamsDetails() {
+export default function TeamsDetails(props) {
 
   const [teamDetails, setTeamDetails] = useState([]);
   const [teamResults, setTeamResults] = useState([]);
@@ -30,6 +31,33 @@ export default function TeamsDetails() {
     window.open(link);
   };
 
+  {/*Team Details*/ }
+  const getCountryFlagDetail = (nationality) => {
+    const flag = props.flags.find(flag => flag.nationality.includes(nationality));
+    return flag && flag.alpha_2_code;
+  }
+
+
+  {/*Team Results*/ }
+  const getCountryFlag = (country) => {
+    if (country === "UK") {
+      return "GB"
+    }
+    else if (country === "Korea") {
+      return "KR"
+    }
+    else if (country === "UAE") {
+      return "AE"
+    }
+    else if (country === "USA") {
+      return "US"
+    }
+    else {
+      const flag = props.flags.find(flag => flag.en_short_name === country);
+      return flag.alpha_2_code;
+    }
+  }
+
 
   if (isLoading) {
     return <Loader />;
@@ -44,9 +72,13 @@ export default function TeamsDetails() {
           return (
             <div key={teamDetail.Constructor.constructorId}>
               <div>
-                <div><img src={`/images/${teamDetail.Constructor.constructorId}.png`} alt="" /></div>
+                <div><img src={`/images/${teamDetail.Constructor.constructorId}.png`} /></div>
                 <div>
-                  <div>{teamDetail.Constructor.nationality}</div>
+
+                    {/* Flags */}
+                    <div onClick={() => handleClickGrandPrix(teamDetail.Constructor.constructorId)}>
+                      <Flag country={getCountryFlagDetail(teamDetail.Constructor.nationality)} /></div>
+
                   <h1>{teamDetail.Constructor.name}</h1>
                 </div>
               </div>
@@ -94,6 +126,11 @@ export default function TeamsDetails() {
               return (
                 <tr key={teamResult.round}>
                   <td>{teamResult.round}</td>
+
+                  {/* Flags */}
+                  <td onClick={() => handleClickGrandPrix(teamResult.round)}>
+                    <Flag country={getCountryFlag(teamResult.Circuit.Location.country)} /></td>
+
                   <td onClick={() => handleClickWikipedia(teamResult.url)}>{teamResult.raceName}</td>
                   <td>{teamResult.Results[0].position}</td>
                   <td>{teamResult.Results[1].position}</td>

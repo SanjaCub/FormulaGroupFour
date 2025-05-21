@@ -2,8 +2,9 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import Loader from "./Loader";
 import { useNavigate } from "react-router";
+import Flag from 'react-flagkit';
 
-export default function AllDrivers() {
+export default function AllDrivers(props) {
     const [drivers, setDrivers] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
@@ -19,10 +20,18 @@ export default function AllDrivers() {
         setIsLoading(false);
     };
 
+
     const handleClickDetails = (id) => {
         const link = `/driverDetails/${id}`;
         navigate(link);
     };
+
+    const getCountryFlag = (nat) => {
+        const flag = props.flags.find(flag => flag.nationality.includes(nat));
+        return flag && flag.alpha_2_code;
+    }
+
+
 
     if (isLoading) {
         return <Loader />
@@ -39,11 +48,14 @@ export default function AllDrivers() {
                         </tr>
                     </thead>
                     <tbody>
+
                         {drivers.map((driver) => {
                             return (
                                 <tr key={driver.position}>
                                     <td>{driver.position}</td>
-                                    <td onClick={() => handleClickDetails(driver.Driver.driverId)}>{driver.Driver.givenName} {driver.Driver.familyName}</td>
+                                    <td onClick={() => handleClickDetails(driver.Driver.driverId)}>
+                                        < Flag country={getCountryFlag(driver.Driver.nationality)} />
+                                        {driver.Driver.givenName} {driver.Driver.familyName}</td>
                                     <td>{driver.Constructors[0].name}</td>
                                     <td>{driver.points}</td>
                                 </tr>
