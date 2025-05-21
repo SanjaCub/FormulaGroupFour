@@ -6,7 +6,6 @@ import Flag from "react-flagkit";
 
 
 export default function AllRaces(props) {
-    console.log(props);
     const [races, setRaces] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -20,6 +19,7 @@ export default function AllRaces(props) {
         const url = "http://ergast.com/api/f1/2013/results/1.json";
         const response = await axios.get(url);
         setRaces(response.data.MRData.RaceTable.Races);
+        console.log("niz ", response.data.MRData.RaceTable);
         setIsLoading(false);
     };
 
@@ -49,6 +49,11 @@ export default function AllRaces(props) {
         }
     }
 
+    const getCountryFlagNationality = (nationality) => {
+        const flag = props.flags.find(flag => flag.nationality.includes(nationality));
+        return flag?.alpha_2_code;
+    }
+
     if (isLoading) {
         return <Loader />;
     };
@@ -71,7 +76,6 @@ export default function AllRaces(props) {
                         <th>Winner</th>
                     </tr>
                     {races.map((race) => {
-                        console.log(race)
                         return (
                             <tr key={race.round}>
                                 <td>{race.round}</td>
@@ -80,7 +84,7 @@ export default function AllRaces(props) {
                                     {race.raceName}</td>
                                 <td>{race.Circuit.circuitName}</td>
                                 <td>{race.date}</td>
-                                <td>{race.Results[0].Driver.familyName}</td>
+                                <td> <Flag country={getCountryFlagNationality(race.Results[0].Driver.nationality)} /> {race.Results[0].Driver.familyName}</td>
                             </tr>
                         );
 

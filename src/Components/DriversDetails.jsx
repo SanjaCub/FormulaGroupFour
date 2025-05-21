@@ -2,8 +2,9 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import Loader from "./Loader";
 import { useParams } from "react-router";
+import Flag from "react-flagkit";
 
-export default function DriversDetails() {
+export default function DriversDetails(props) {
     const [details, setDetails] = useState([]);
     const [results, setResults] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -23,6 +24,33 @@ export default function DriversDetails() {
         setIsLoading(false);
     };
 
+    const getCountryDriverFlag = (nat) => {
+        const flag = props.flags.find(flag => flag.nationality.includes(nat));
+        return flag && flag.alpha_2_code;
+    }
+
+    const getCountryPrixFlag = (country) => {
+        if (country === "UK") {
+            return "GB"
+        }
+        else if (country === "Korea") {
+            return "KR"
+        }
+
+        else if (country === "UAE") {
+            return "AE"
+        }
+
+        else if (country === "USA") {
+            return "US"
+        }
+        else {
+            const flag = props.flags.find(flag => flag.en_short_name === country);
+            return flag && flag.alpha_2_code;
+        }
+    }
+
+
     const handleClickWiki = (url) => {
         const link = `${url}`;
         window.open(link);
@@ -40,7 +68,7 @@ export default function DriversDetails() {
                         <div>
                             <div> <img src={`/images/${detail.Driver.driverId}.jpg`} alt="" /></div>
                             <div>
-                                <div></div>
+                                <div>< Flag country={getCountryDriverFlag(detail.Driver.nationality)} /></div>
                                 <h1>{detail.Driver.givenName} {detail.Driver.familyName}</h1>
                             </div>
                         </div>
@@ -84,7 +112,7 @@ export default function DriversDetails() {
                             return (
                                 <tr key={result.round}>
                                     <td>{result.round}</td>
-                                    <td>{result.raceName}</td>
+                                    <td> < Flag country={getCountryPrixFlag(result.Circuit.Location.country)} />{result.raceName}</td>
                                     <td>{result.Results[0].Constructor.name}</td>
                                     <td >{result.Results[0].grid}</td>
                                     <td>{result.Results[0].position}</td>
