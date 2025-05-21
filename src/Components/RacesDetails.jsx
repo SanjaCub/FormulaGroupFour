@@ -3,6 +3,7 @@ import Loader from "./Loader";
 import axios from "axios";
 import { useParams } from "react-router";
 import Flag from "react-flagkit";
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 export default function RacesDetails(props) {
     const [races, setRaces] = useState([]);
@@ -55,12 +56,12 @@ export default function RacesDetails(props) {
         }
     };
 
-    const handleClickGrandPrixSecond = (nationality) => {
+    const handleGrandPrixSecond = (nationality) => {
         const flag = props.flags.find(flag => flag.nationality.includes(nationality));
         return flag?.alpha_2_code;
     };
 
-    const handleClickGrandPrixThird = (nationality) => {
+    const handleGrandPrixThird = (nationality) => {
         const flag = props.flags.find(flag => flag.nationality.includes(nationality));
         return flag?.alpha_2_code;
     };
@@ -75,7 +76,7 @@ export default function RacesDetails(props) {
                 return (
                     <div key={race.round}>
 
-                        <div onClick={() => handleClickGrandPrix(race.round)}>
+                        <div onClick={() => handleGrandPrix(race.round)}>
                             <Flag country={getCountryFlag(race.Circuit.Location.country)} />
                         </div>
 
@@ -96,7 +97,7 @@ export default function RacesDetails(props) {
                         </div>
                         <div>
                             <div>Report: </div>
-                            <div onClick={() => handleClickWiki(race.url)}>Link</div>
+                            <div> <OpenInNewIcon onClick={() => handleClickWiki(race.url)} /></div>
                         </div>
                     </div>
                 )
@@ -123,7 +124,7 @@ export default function RacesDetails(props) {
                                 <tr key={raceDetail.position}>
                                     <td>{raceDetail.position}</td>
                                     <td>
-                                        <Flag country={handleClickGrandPrixSecond(raceDetail.Driver.nationality)} />
+                                        <Flag country={handleGrandPrixSecond(raceDetail.Driver.nationality)} />
                                     </td>
                                     <td>{raceDetail.Driver.familyName}</td>
                                     <td>{raceDetail.Constructor.name}</td>
@@ -155,13 +156,11 @@ export default function RacesDetails(props) {
                         </tr>
 
                         {raceResults.map((raceResult) => {
-
-                            //console.log(raceResult.Time)
                             return (
 
                                 <tr key={raceResult.position}>
                                     <td>{raceResult.position}</td>
-                                    <td> <Flag country={handleClickGrandPrixThird(raceResult.Driver.nationality)} /> {raceResult.Driver.familyName}</td>
+                                    <td> <Flag country={handleGrandPrixThird(raceResult.Driver.nationality)} /> {raceResult.Driver.familyName}</td>
                                     <td>{raceResult.Constructor.name}</td>
                                     <td>{raceResult.Time?.time ? raceResult.Time.time : "No time"}</td>
                                     <td>{raceResult.points}</td>
