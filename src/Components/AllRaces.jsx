@@ -4,11 +4,12 @@ import axios from "axios";
 import { useNavigate } from "react-router";
 import Flag from "react-flagkit";
 
-export default function AllRaces() {
 
+export default function AllRaces(props) {
+    console.log(props);
     const [races, setRaces] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [flags, setFlags] = useState([]);
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -19,12 +20,6 @@ export default function AllRaces() {
         const url = "http://ergast.com/api/f1/2013/results/1.json";
         const response = await axios.get(url);
         setRaces(response.data.MRData.RaceTable.Races);
-
-
-        const flagsUrl = "https://raw.githubusercontent.com/Dinuks/country-nationality-list/master/countries.json";
-        const responseFlag = await axios.get(flagsUrl);
-        console.log("response ", responseFlag.data);
-        setFlags(responseFlag.data);
         setIsLoading(false);
     };
 
@@ -33,7 +28,26 @@ export default function AllRaces() {
         navigate(link);
     }
 
+    const getCountryFlag = (country) => {
+        if (country === "UK") {
+            return "GB"
+        }
+        else if (country === "Korea") {
+            return "KR"
+        }
 
+        else if (country === "UAE") {
+            return "AE"
+        }
+
+        else if (country === "USA") {
+            return "US"
+        }
+        else {
+            const flag = props.flags.find(flag => flag.en_short_name === country);
+            return flag.alpha_2_code;
+        }
+    }
 
     if (isLoading) {
         return <Loader />;
@@ -62,17 +76,7 @@ export default function AllRaces() {
                             <tr key={race.round}>
                                 <td>{race.round}</td>
                                 <td onClick={() => handleClickGrandPrix(race.round)}>
-                                    {(race.Circuit.Location.country === "UK") && <Flag country="GB" />}
-                                    {(race.Circuit.Location.country === "Korea") && <Flag country="KR" />}
-                                    {(race.Circuit.Location.country === "UAE") && <Flag country="AE" />}
-                                    {(race.Circuit.Location.country === "USA") && <Flag country="US" />}
-                                    {flags.map((flag) => {
-                                        if (race.Circuit.Location.country === flag.en_short_name) {
-                                            return (
-                                                <Flag country={flag.alpha_2_code} />
-                                            );
-                                        }
-                                    })}
+                                    <Flag country={getCountryFlag(race.Circuit.Location.country)} />
                                     {race.raceName}</td>
                                 <td>{race.Circuit.circuitName}</td>
                                 <td>{race.date}</td>
@@ -87,3 +91,4 @@ export default function AllRaces() {
         </>
     );
 }
+

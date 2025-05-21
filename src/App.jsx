@@ -6,8 +6,24 @@ import Home from "./Components/Home";
 import DriversDetails from "./Components/DriversDetails";
 import TeamsDetails from "./Components/TeamsDetails";
 import RacesDetails from "./Components/RacesDetails";
+import axios from "axios";
+import {useState, useEffect} from "react";
 
 export default function App() {
+
+  const [flags, setFlags] = useState([]);
+
+      useEffect(() => {
+          getFlags();
+      }, []);
+
+  const getFlags = async () => {
+    const flagsUrl = "https://raw.githubusercontent.com/Dinuks/country-nationality-list/master/countries.json";
+    const responseFlag = await axios.get(flagsUrl);
+    console.log("response ", responseFlag.data);
+    setFlags(responseFlag.data);
+  }
+
   return (
     <Router>
       <nav>
@@ -20,13 +36,13 @@ export default function App() {
       </nav>
 
       <Routes>
-        <Route path="/" element={<Home/>} />
+        <Route path="/" element={<Home />} />
         <Route path="/drivers" element={<AllDrivers />} />
         <Route path="/teams" element={<AllTeams />} />
-        <Route path="/races" element={<AllRaces />} />
-        <Route path="/driverDetails/:driversId" element={<DriversDetails/>} />
-        <Route path="/teamsDetails/:teamsId" element={<TeamsDetails/>} />
-        <Route path="/racesDetails/:racesId" element={<RacesDetails/>} />
+        <Route path="/races" element={<AllRaces flags={flags} />} />
+        <Route path="/driverDetails/:driversId" element={<DriversDetails />} />
+        <Route path="/teamsDetails/:teamsId" element={<TeamsDetails />} />
+        <Route path="/racesDetails/:racesId" element={<RacesDetails />} />
       </Routes>
     </Router>
   );
