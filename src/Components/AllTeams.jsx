@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Loader from "./Loader";
 import { useNavigate } from "react-router";
+import Flag from "react-flagkit";
 
-export default function App() {
+export default function App(props) {
 
     const [allTeams, setAllTeams] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -30,10 +31,14 @@ export default function App() {
         window.open(link);
     };
 
+    const getCountryFlag = (nationality) => {
+        const flag = props.flags.find(flag => flag.nationality.includes(nationality));
+        return flag && flag.alpha_2_code;
+    }
+
     if (isLoading) {
         return <Loader />
     };
-
 
     return (
         <div>
@@ -51,9 +56,17 @@ export default function App() {
                         {allTeams.map((team) => {
                             return (
                                 <tr key={team.position}>
+
                                     <td>{team.position}</td>
-                                    <td onClick={() => handleClickDetails(team.Constructor.constructorId)}>{team.Constructor.nationality} {team.Constructor.name}</td>
+
+                                    {/* Flags */}
+                                    <td onClick={() => handleClickGrandPrix(team.position)}>
+                                        <Flag country={getCountryFlag(team.Constructor.nationality)}/></td>
+
+                                    <td onClick={() => handleClickDetails(team.Constructor.constructorId)}>{team.Constructor.name}</td>
+
                                     <td onClick={() => handleClickWiki(team.Constructor.url)}>Details</td>
+
                                     <td>{team.points}</td>
                                 </tr>
                             );
