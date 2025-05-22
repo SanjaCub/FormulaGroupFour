@@ -49,7 +49,7 @@ export default function App(props) {
 
                     <thead>
                         <tr>
-                            <th colSpan={4}>Constructors Championship Standings - 2013</th>
+                            <th colSpan={5}>Constructors Championship Standings - 2013</th>
                         </tr>
                     </thead>
 
@@ -61,10 +61,8 @@ export default function App(props) {
                                     <td>{team.position}</td>
 
                                     {/* Flags */}
-                                    <td onClick={() => handleClickGrandPrix(team.position)}>
-                                        <Flag country={getCountryFlag(team.Constructor.nationality)}/></td>
 
-                                    <td onClick={() => handleClickDetails(team.Constructor.constructorId)}>{team.Constructor.name}</td>
+                                    <td onClick={() => handleClickDetails(team.Constructor.constructorId)}><Flag country={getCountryFlag(team.Constructor.nationality)}/>{team.Constructor.name} </td>
 
                                     <td> Details <OpenInNewIcon onClick={() => handleClickWiki(team.Constructor.url)}/></td> 
 

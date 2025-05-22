@@ -129,10 +129,7 @@ export default function TeamsDetails(props) {
                   <td>{teamResult.round}</td>
 
                   {/* Flags */}
-                  <td onClick={() => handleClickGrandPrix(teamResult.round)}>
-                    <Flag country={getCountryFlag(teamResult.Circuit.Location.country)} /></td>
-
-                  <td onClick={() => handleClickWikipedia(teamResult.url)}>{teamResult.raceName}</td>
+                  <td onClick={() => handleClickWikipedia(teamResult.url)}><Flag country={getCountryFlag(teamResult.Circuit.Location.country)} /> {teamResult.raceName}</td>
                   <td>{teamResult.Results[0].position}</td>
                   <td>{teamResult.Results[1].position}</td>
                   <td>{Number(teamResult.Results[0].points) + Number(teamResult.Results[1].points)}</td>
