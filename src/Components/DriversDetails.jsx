@@ -99,7 +99,7 @@ export default function DriversDetails(props) {
                 <table>
                     <thead>
                         <tr>
-                            <th colSpan={4}>Formula 1 2013 Results</th>
+                            <th colSpan={5}>Formula 1 2013 Results</th>
                         </tr>
                     </thead>
                     <tbody>
