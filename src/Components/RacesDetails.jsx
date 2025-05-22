@@ -123,10 +123,9 @@ export default function RacesDetails(props) {
                             return (
                                 <tr key={raceDetail.position}>
                                     <td>{raceDetail.position}</td>
-                                    <td>
-                                        <Flag country={handleGrandPrixSecond(raceDetail.Driver.nationality)} />
+                                    <td className="flag-container">
+                                        <Flag country={handleGrandPrixSecond(raceDetail.Driver.nationality)} />{raceDetail.Driver.familyName}
                                     </td>
-                                    <td>{raceDetail.Driver.familyName}</td>
                                     <td>{raceDetail.Constructor.name}</td>
                                     <td>{lapTimes[0]}</td>
                                 </tr>
@@ -160,7 +159,7 @@ export default function RacesDetails(props) {
 
                                 <tr key={raceResult.position}>
                                     <td>{raceResult.position}</td>
-                                    <td> <Flag country={handleGrandPrixThird(raceResult.Driver.nationality)} /> {raceResult.Driver.familyName}</td>
+                                    <td className="flag-container"> <Flag country={handleGrandPrixThird(raceResult.Driver.nationality)} /> {raceResult.Driver.familyName}</td>
                                     <td>{raceResult.Constructor.name}</td>
                                     <td>{raceResult.Time?.time ? raceResult.Time.time : "No time"}</td>
                                     <td>{raceResult.points}</td>
