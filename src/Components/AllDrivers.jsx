@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Loader from "./Loader";
 import { useNavigate } from "react-router";
 import Flag from 'react-flagkit';
+import { getCountryFlag } from "../helper/getFlag";
 
 export default function AllDrivers(props) {
     const [drivers, setDrivers] = useState([]);
@@ -26,37 +27,38 @@ export default function AllDrivers(props) {
         navigate(link);
     };
 
-    const getCountryFlag = (nat) => {
-        const flag = props.flags.find(flag => flag.nationality.includes(nat));
-        return flag && flag.alpha_2_code;
-    }
-
-
+    const handleClickTeamDetails = (id) => {
+        const link = `/teamsDetails/${id}`;
+        navigate(link);
+    };
 
     if (isLoading) {
         return <Loader />
     }
 
     return (
-        <div>
+        <div className="container">
             <div><h1>Drivers Champsionship</h1></div>
-            <div>
-                <table>
+            <div className="all-container">
+                <table className="single-table">
                     <thead>
                         <tr>
                             <th colSpan={4}>Driver Championship Standings - 2013</th>
                         </tr>
                     </thead>
                     <tbody>
-
                         {drivers.map((driver) => {
                             return (
                                 <tr key={driver.position}>
                                     <td>{driver.position}</td>
-                                    <td onClick={() => handleClickDetails(driver.Driver.driverId)}>
-                                        < Flag country={getCountryFlag(driver.Driver.nationality)} />
-                                        {driver.Driver.givenName} {driver.Driver.familyName}</td>
-                                    <td>{driver.Constructors[0].name}</td>
+
+                                    <td onClick={() => handleClickDetails(driver.Driver.driverId)} className="details">
+                                        <div className="flag-container" >
+                                            < Flag country={getCountryFlag(driver.Driver.nationality, props.flags)} />
+
+                                            {driver.Driver.givenName} {driver.Driver.familyName}
+                                        </div></td>
+                                    <td onClick={() => handleClickTeamDetails(driver.Constructors[0].constructorId)} className="details">{driver.Constructors[0].name}</td>
                                     <td>{driver.points}</td>
                                 </tr>
                             );

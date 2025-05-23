@@ -4,6 +4,8 @@ import axios from "axios";
 import { useParams } from "react-router";
 import Flag from "react-flagkit";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import { getBgColor } from "../helper/getBgColor";
+import { getCountryFlag, getCountryPrixFlag } from "../helper/getFlag";
 
 export default function RacesDetails(props) {
     const [races, setRaces] = useState([]);
@@ -33,79 +35,60 @@ export default function RacesDetails(props) {
         window.open(link);
     };
 
-    {/* Info */ }
-
-    const getCountryFlag = (country) => {
-        if (country === "UK") {
-            return "GB"
-        }
-        else if (country === "Korea") {
-            return "KR"
-        }
-
-        else if (country === "UAE") {
-            return "AE"
-        }
-
-        else if (country === "USA") {
-            return "US"
-        }
-        else {
-            const flag = props.flags.find(flag => flag.en_short_name === country);
-            return flag?.alpha_2_code;
-        }
-    };
-
-    const handleGrandPrixSecond = (nationality) => {
-        const flag = props.flags.find(flag => flag.nationality.includes(nationality));
-        return flag?.alpha_2_code;
-    };
-
-    const handleGrandPrixThird = (nationality) => {
-        const flag = props.flags.find(flag => flag.nationality.includes(nationality));
-        return flag?.alpha_2_code;
-    };
-
     if (isLoading) {
         return <Loader />;
     };
 
     return (
-        <>
+        <div className="details-container">
             {races.map((race) => {
                 return (
-                    <div key={race.round}>
+                    <div className="info-wraper" key={race.round}>
+                        {/* info wrapper */}
 
-                        <div onClick={() => handleGrandPrix(race.round)}>
-                            <Flag country={getCountryFlag(race.Circuit.Location.country)} />
+                        <div className="info-containerOne">
+
+                            <div>
+                                <h1 className="title">{race.raceName}</h1>
+                            </div>
+
+                            {/* flag */}
+                            <div>
+                                <Flag country={getCountryPrixFlag(race.Circuit.Location.country, props.flags)} className="info-flag" />
+                            </div>
                         </div>
 
+                        {/* info two */}
                         <div>
-                            <h1>{race.raceName}</h1>
-                        </div>
-                        <div>
-                            <div>Country: </div>
-                            <div>{race.Circuit.Location.country}</div>
-                        </div>
-                        <div>
-                            <div>Location: </div>
-                            <div>{race.Circuit.Location.locality}</div>
-                        </div>
-                        <div>
-                            <div>Date: </div>
-                            <div>{race.date}</div>
-                        </div>
-                        <div>
-                            <div>Report: </div>
-                            <div> <OpenInNewIcon onClick={() => handleClickWiki(race.url)} /></div>
+                            <div className="info-containerTwo">
+                                <p>Country: </p>
+                                <p>{race.Circuit.Location.country}</p>
+                            </div>
+
+                            <div className="info-containerTwo">
+                                <p>Location:</p>
+                                <p>{race.Circuit.Location.locality}</p>
+
+                            </div>
+
+                            <div className="info-containerTwo">
+                                <p>Date: </p>
+                                <p>{race.date}</p>
+                            </div>
+
+                            <div className="info-containerTwo">
+                                <p>Report: </p>
+                                <p className="details"><OpenInNewIcon onClick={() => handleClickWiki(race.url)} /></p>
+
+                            </div>
                         </div>
                     </div>
-                )
+                );
             })}
 
             {/* Results */}
-            <div>
-                <table>
+            <div className="table-container details-container" style={{ gap: "20px" }}>
+                <table className="single-table">
                     <thead>
                         <tr>
                             <th colSpan={4}>Qualifying Results</th>
@@ -123,8 +106,10 @@ export default function RacesDetails(props) {
                             return (
                                 <tr key={raceDetail.position}>
                                     <td>{raceDetail.position}</td>
-                                    <td className="flag-container">
-                                        <Flag country={handleGrandPrixSecond(raceDetail.Driver.nationality)} />{raceDetail.Driver.familyName}
+                                    <td>
+                                        <div className="flag-container">
+                                            <Flag country={getCountryFlag(raceDetail.Driver.nationality, props.flags)} />{raceDetail.Driver.familyName}
+                                        </div>
                                     </td>
                                     <td>{raceDetail.Constructor.name}</td>
                                     <td>{lapTimes[0]}</td>
@@ -134,14 +119,12 @@ export default function RacesDetails(props) {
 
                     </tbody>
                 </table>
-            </div>
 
-            {/* Races */}
-            <div>
-                <table>
+                {/* Races */}
+                <table className="single-table">
                     <thead>
                         <tr>
-                            <th colSpan={4}>Race Results</th>
+                            <th colSpan={5}>Race Results</th>
                         </tr>
                     </thead>
 
@@ -159,21 +142,21 @@ export default function RacesDetails(props) {
 
                                 <tr key={raceResult.position}>
                                     <td>{raceResult.position}</td>
-                                    <td className="flag-container"> <Flag country={handleGrandPrixThird(raceResult.Driver.nationality)} /> {raceResult.Driver.familyName}</td>
+                                    <td >
+                                        <div className="flag-container">
+                                            <Flag country={getCountryFlag(raceResult.Driver.nationality, props.flags)} /> {raceResult.Driver.familyName}
+                                        </div>
+                                    </td>
                                     <td>{raceResult.Constructor.name}</td>
                                     <td>{raceResult.Time?.time ? raceResult.Time.time : "No time"}</td>
-                                    <td>{raceResult.points}</td>
-
+                                    <td style={{ backgroundColor: getBgColor(Number(raceResult.points)) }}> {raceResult.points}</td>
                                 </tr>
 
                             );
                         })}
-
                     </tbody>
                 </table>
             </div>
-
-        </>
+        </div>
     );
 }
-

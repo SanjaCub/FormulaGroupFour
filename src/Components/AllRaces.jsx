@@ -3,6 +3,7 @@ import Loader from "./Loader";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import Flag from "react-flagkit";
+import { getCountryFlag, getCountryPrixFlag } from "../helper/getFlag";
 
 
 export default function AllRaces(props) {
@@ -27,71 +28,59 @@ export default function AllRaces(props) {
         navigate(link);
     }
 
-    const getCountryFlag = (country) => {
-        if (country === "UK") {
-            return "GB"
-        }
-        else if (country === "Korea") {
-            return "KR"
-        }
-
-        else if (country === "UAE") {
-            return "AE"
-        }
-
-        else if (country === "USA") {
-            return "US"
-        }
-        else {
-            const flag = props.flags.find(flag => flag.en_short_name === country);
-            return flag.alpha_2_code;
-        }
-    }
-
-    const getCountryFlagNationality = (nationality) => {
-        const flag = props.flags.find(flag => flag.nationality.includes(nationality));
-        return flag?.alpha_2_code;
-    }
+    const handleClickDriverDetails = (id) => {
+        const link = `/driverDetails/${id}`;
+        navigate(link);
+    };
 
     if (isLoading) {
         return <Loader />;
     };
 
     return (
-        <>
-            <h1>Race calendar</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th colSpan={5}>Race Calendar - 2013</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th>Round</th>
-                        <th>Grand prix</th>
-                        <th>Circuit</th>
-                        <th>Data</th>
-                        <th>Winner</th>
-                    </tr>
-                    {races.map((race) => {
-                        return (
-                            <tr key={race.round}>
-                                <td>{race.round}</td>
-                                <td className="flag-container" onClick={() => handleClickGrandPrix(race.round)}>
-                                    <Flag country={getCountryFlag(race.Circuit.Location.country)} />
-                                    {race.raceName}</td>
-                                <td>{race.Circuit.circuitName}</td>
-                                <td>{race.date}</td>
-                                <td className="flag-container"> <Flag country={getCountryFlagNationality(race.Results[0].Driver.nationality)} /> {race.Results[0].Driver.familyName}</td>
-                            </tr>
-                        );
+        <div className="container">
+            <div><h1>Race calendar</h1></div>
+            <div className="all-container">
+                <table className="single-table">
+                    <thead>
+                        <tr>
+                            <th colSpan={5}>Race Calendar - 2013</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Round</th>
+                            <th>Grand prix</th>
+                            <th>Circuit</th>
+                            <th>Data</th>
+                            <th>Winner</th>
+                        </tr>
+                        {races.map((race) => {
+                            return (
+                                <tr key={race.round}>
+                                    <td>{race.round}</td>
+                                    <td className="details" onClick={() => handleClickGrandPrix(race.round)}>
+                                        <div className="flag-container">
+                                            <Flag country={getCountryPrixFlag(race.Circuit.Location.country, props.flags)} />
+                                            {race.raceName}
+                                        </div>
+                                    </td>
+                                    <td>{race.Circuit.circuitName}</td>
+                                    <td>{race.date}</td>
+                                    <td onClick={()=> handleClickDriverDetails(race.Results[0].Driver.driverId)} className="details">
+                                        <div className="flag-container">
+                                            <Flag country={getCountryFlag(race.Results[0].Driver.nationality, props.flags)} /> {race.Results[0].Driver.familyName}
+                                        </div>
+                                    </td>
+                                </tr>
+                            );
 
-                    })}
+                        })}
 
-                </tbody>
-            </table>
-        </>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     );
 }
 
