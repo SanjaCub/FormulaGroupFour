@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router";
+import { BrowserRouter as Router, Routes, Route, NavLink } from "react-router";
 import AllDrivers from "./Components/AllDrivers";
 import AllTeams from "./Components/AllTeams";
 import AllRaces from "./Components/AllRaces";
@@ -31,12 +31,12 @@ export default function App() {
       <nav className="navigation">
 
         <ul>
-          <li><Link to="/"><img className="formula" src={`/images/F1-logo.png`} /></Link></li>
+          <li>< NavLink to="/"><img className="formula" src={`/images/F1-logo.png`} /></NavLink></li>
         </ul>
         <ul>
-          <li><Link to="/drivers">Drivers</Link></li>
-          <li><Link to="/teams">Teams</Link></li>
-          <li><Link to="/races">Races</Link></li>
+          <li><NavLink to="/drivers">Drivers</NavLink></li>
+          <li><NavLink to="/teams">Teams</NavLink></li>
+          <li><NavLink to="/races">Races</NavLink></li>
           <li className="year"><Year selectedYear={selectedYear} setSelectedYear={setSelectedYear} /></li>
         </ul>
 
