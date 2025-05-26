@@ -18,7 +18,6 @@ export default function App(props) {
 
     const getAllTeams = async () => {
         const response = await axios.get(`http://ergast.com/api/f1/${props.selectedYear}/constructorStandings.json`);
-        console.log(response.data);
         setIsLoading(false);
         setAllTeams(response.data.MRData.StandingsTable.StandingsLists[0].ConstructorStandings);
     };

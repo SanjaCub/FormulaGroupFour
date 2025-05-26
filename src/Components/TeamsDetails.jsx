@@ -22,8 +22,6 @@ export default function TeamsDetails(props) {
   const getTeamDetailsandResults = async () => {
     const detailsURL = await axios.get(`http://ergast.com/api/f1/${props.selectedYear}/constructors/${params.teamsId}/constructorStandings.json`);
     const resultsURL = await axios.get(`http://ergast.com/api/f1/${props.selectedYear}/constructors/${params.teamsId}/results.json`);
-
-    console.log(resultsURL.data.MRData.RaceTable.Races);
     setTeamDetails(detailsURL.data.MRData.StandingsTable.StandingsLists[0].ConstructorStandings);
     setTeamResults(resultsURL.data.MRData.RaceTable.Races);
     setIsLoading(false);
