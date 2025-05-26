@@ -14,10 +14,10 @@ export default function AllRaces(props) {
 
     useEffect(() => {
         getRaces();
-    }, []);
+    }, [props.selectedYear]);
 
     const getRaces = async () => {
-        const url = "http://ergast.com/api/f1/2013/results/1.json";
+        const url = `http://ergast.com/api/f1/${props.selectedYear}/results/1.json`;
         const response = await axios.get(url);
         setRaces(response.data.MRData.RaceTable.Races);
         setIsLoading(false);
@@ -44,7 +44,7 @@ export default function AllRaces(props) {
                 <table className="single-table">
                     <thead>
                         <tr>
-                            <th colSpan={5}>Race Calendar - 2013</th>
+                            <th colSpan={5}>Race Calendar - {props.selectedYear}</th>
                         </tr>
                     </thead>
                     <tbody>
