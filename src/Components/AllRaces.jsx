@@ -9,12 +9,25 @@ import { getCountryFlag, getCountryPrixFlag } from "../helper/getFlag";
 export default function AllRaces(props) {
     const [races, setRaces] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-
+    const [searchResults, setSearchResults] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
         getRaces();
     }, [props.selectedYear]);
+
+    useEffect(() => {
+        const results = races.filter(race => {
+            if(props.searchTerm === "") {
+                return race;
+            } else {
+                return race.raceName.toLowerCase().includes(props.searchTerm) || 
+            race.Circuit.circuitName.toLowerCase().includes(props.searchTerm) || race.Results[0].Driver.familyName.toLowerCase().includes(props.searchTerm);
+            }
+        });
+        setSearchResults(results);
+    }, [props.searchTerm, races]);
+
 
     const getRaces = async () => {
         const url = `http://ergast.com/api/f1/${props.selectedYear}/results/1.json`;
@@ -55,7 +68,7 @@ export default function AllRaces(props) {
                             <th>Data</th>
                             <th>Winner</th>
                         </tr>
-                        {races.map((race) => {
+                        {searchResults.map((race) => {
                             return (
                                 <tr key={race.round}>
                                     <td>{race.round}</td>
