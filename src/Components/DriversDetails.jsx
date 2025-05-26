@@ -12,12 +12,24 @@ export default function DriversDetails(props) {
     const [details, setDetails] = useState([]);
     const [results, setResults] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [searchResults, setSearchResults] = useState([]);
     const params = useParams();
     const navigate = useNavigate();
 
     useEffect(() => {
         getDetailsAndResults();
     }, [props.selectedYear]);
+
+    useEffect(() => {
+        const driverResults = results.filter(result => {
+            if(props.searchTerm === "") {
+                return result;
+            } else {
+                return result.raceName.toLowerCase().includes(props.searchTerm);
+            }
+        });
+        setSearchResults(driverResults);
+    }, [props.searchTerm, results]);
 
     const getDetailsAndResults = async () => {
         const detailsUrl = `https://ergast.com/api/f1/${props.selectedYear}/drivers/${params.driversId}/driverStandings.json`;
@@ -98,7 +110,7 @@ export default function DriversDetails(props) {
                             <td>Grid</td>
                             <td>Race</td>
                         </tr>
-                        {results.map((result) => {
+                        {searchResults.map((result) => {
                             return (
                                 <tr key={result.round}>
                                     <td>{result.round}</td>
