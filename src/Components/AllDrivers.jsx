@@ -8,11 +8,26 @@ import { getCountryFlag } from "../helper/getFlag";
 export default function AllDrivers(props) {
     const [drivers, setDrivers] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [searchResults, setSearchResults] = useState([]);
     const navigate = useNavigate();
+
+    console.log(props.searchTerm);
 
     useEffect(() => {
         getDrivers();
     }, [props.selectedYear]);
+
+    useEffect(() => {
+        console.log(props.searchTerm);
+        const results = drivers.filter(driver => {
+            if(props.searchTerm === "") {
+                return  driver;
+            } else {
+                return driver.Driver.givenName.toLowerCase().includes(props.searchTerm) || driver.Driver.familyName.toLowerCase().includes(props.searchTerm) || driver.Constructors[0].name.toLowerCase().includes(props.searchTerm);
+            }
+        });
+        setSearchResults(results);
+    }, [props.searchTerm, drivers]);
 
     const getDrivers = async () => {
         const url = `https://ergast.com/api/f1/${props.selectedYear}/driverStandings.json`;
@@ -47,7 +62,7 @@ export default function AllDrivers(props) {
                         </tr>
                     </thead>
                     <tbody>
-                        {drivers.map((driver) => {
+                        {searchResults.map((driver) => {
                             return (
                                 <tr key={driver.position}>
                                     <td>{driver.position}</td>

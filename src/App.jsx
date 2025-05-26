@@ -9,13 +9,16 @@ import RacesDetails from "./Components/RacesDetails";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import Year from "./Components/Year";
+import Search from "./Components/Search";
+
 
 export default function App() {
 
   const [flags, setFlags] = useState([]);
   const [selectedYear, setSelectedYear] = useState("2013");
+  const [searchTerm, setSearchTerm] = useState("");
 
-
+  
   useEffect(() => {
     getFlags();
   }, []);
@@ -38,17 +41,14 @@ export default function App() {
           <li><NavLink to="/teams">Teams</NavLink></li>
           <li><NavLink to="/races">Races</NavLink></li>
           <li className="year"><Year selectedYear={selectedYear} setSelectedYear={setSelectedYear} /></li>
+          <li><Search searchTerm={searchTerm} setSearchTerm={setSearchTerm}/></li>
         </ul>
 
-        <ul className="yearSearch">
-          <li style={{ color: "white" }} className="searchBar">Search</li>
-        </ul>
-
-      </nav>
+        </nav>
 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/drivers" element={<AllDrivers selectedYear={selectedYear} flags={flags} />} />
+        <Route path="/drivers" element={<AllDrivers searchTerm={searchTerm} selectedYear={selectedYear} flags={flags} />} />
         <Route path="/teams" element={<AllTeams selectedYear={selectedYear} flags={flags} />} />
         <Route path="/races" element={<AllRaces selectedYear={selectedYear} flags={flags} />} />
         <Route path="/driverDetails/:driversId" element={<DriversDetails selectedYear={selectedYear} flags={flags} />} />
