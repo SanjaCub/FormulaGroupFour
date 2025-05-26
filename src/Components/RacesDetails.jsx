@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Loader from "./Loader";
 import axios from "axios";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import Flag from "react-flagkit";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { getBgColor } from "../helper/getBgColor";
@@ -13,6 +13,7 @@ export default function RacesDetails(props) {
     const [raceResults, setRaceResults] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const params = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
         getRacesDetailsAndResults();
@@ -34,6 +35,17 @@ export default function RacesDetails(props) {
         const link = `${url}`;
         window.open(link);
     };
+
+    const handleClickDetails = (id) => {
+        const link = `/driverDetails/${id}`;
+        navigate(link);
+    };
+
+    const handleClickTeamDetails = (id) => {
+        const link = `/teamsDetails/${id}`;
+        navigate(link);
+    };
+
 
     if (isLoading) {
         return <Loader />;
@@ -106,12 +118,12 @@ export default function RacesDetails(props) {
                             return (
                                 <tr key={raceDetail.position}>
                                     <td>{raceDetail.position}</td>
-                                    <td>
+                                    <td className="details" onClick={() => handleClickDetails(raceDetail.Driver.driverId)} >
                                         <div className="flag-container">
                                             <Flag country={getCountryFlag(raceDetail.Driver.nationality, props.flags)} />{raceDetail.Driver.familyName}
                                         </div>
                                     </td>
-                                    <td>{raceDetail.Constructor.name}</td>
+                                    <td className="details" onClick={() => handleClickTeamDetails(raceDetail.Constructor.constructorId)} >{raceDetail.Constructor.name}</td>
                                     <td>{lapTimes[0]}</td>
                                 </tr>
                             );
@@ -142,12 +154,12 @@ export default function RacesDetails(props) {
 
                                 <tr key={raceResult.position}>
                                     <td>{raceResult.position}</td>
-                                    <td >
+                                    <td className="details" onClick={() => handleClickDetails(raceResult.Driver.driverId)}>
                                         <div className="flag-container">
                                             <Flag country={getCountryFlag(raceResult.Driver.nationality, props.flags)} /> {raceResult.Driver.familyName}
                                         </div>
                                     </td>
-                                    <td>{raceResult.Constructor.name}</td>
+                                    <td className="details" onClick={() => handleClickTeamDetails(raceResult.Constructor.constructorId)} >{raceResult.Constructor.name}</td>
                                     <td>{raceResult.Time?.time ? raceResult.Time.time : "No time"}</td>
                                     <td style={{ backgroundColor: getBgColor(Number(raceResult.points)) }}> {raceResult.points}</td>
                                 </tr>
