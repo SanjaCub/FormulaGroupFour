@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Loader from "./Loader";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import Flag from "react-flagkit";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { getBgColor } from "../helper/getBgColor";
@@ -13,6 +13,7 @@ export default function TeamsDetails(props) {
   const [teamResults, setTeamResults] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const params = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     getTeamDetailsandResults();
@@ -32,6 +33,11 @@ export default function TeamsDetails(props) {
     window.open(link);
   };
 
+  const handleClickGrandPrix = (id) => {
+    const link = `/racesDetails/${id}`
+    navigate(link);
+  }
+
   if (isLoading) {
     return <Loader />;
   };
@@ -49,7 +55,7 @@ export default function TeamsDetails(props) {
               <div >
 
                 {/* Flags */}
-                <div onClick={() => handleClickGrandPrix(teamDetail.Constructor.constructorId)}>
+                <div >
                   <Flag country={getCountryFlag(teamDetail.Constructor.nationality, props.flags)} className="info-flag" /></div>
 
                 <div>
@@ -103,7 +109,7 @@ export default function TeamsDetails(props) {
                   <td>{teamResult.round}</td>
 
                   {/* Flags */}
-                  <td className="details" onClick={() => handleClickWikipedia(teamResult.url)}><div className="flag-container"><Flag country={getCountryPrixFlag(teamResult.Circuit.Location.country, props.flags)} /> {teamResult.raceName}</div></td>
+                  <td onClick={() => handleClickGrandPrix(teamResult.round)}  className="details"><div className="flag-container"><Flag country={getCountryPrixFlag(teamResult.Circuit.Location.country, props.flags)} /> {teamResult.raceName}</div></td>
                   <td style={{ backgroundColor: getBgColor(Number(teamResult.Results[0].position)) }}> {teamResult.Results[0].position}</td>
                   <td style={{ backgroundColor: getBgColor(Number(teamResult.Results[1].position)) }}> {teamResult.Results[1].position}</td>
                   <td>{Number(teamResult.Results[0].points) + Number(teamResult.Results[1].points)}</td>
