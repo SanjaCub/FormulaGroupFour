@@ -16,12 +16,12 @@ export default function RacesDetails(props) {
 
     useEffect(() => {
         getRacesDetailsAndResults();
-    }, []);
+    }, [props.selectedYear]);
 
     // Quailifiers
     const getRacesDetailsAndResults = async () => {
-        const qualifiersUrl = `http://ergast.com/api/f1/2013/${params.racesId}/qualifying.json`;
-        const resultsUrl = `http://ergast.com/api/f1/2013/${params.racesId}/results.json`;
+        const qualifiersUrl = `http://ergast.com/api/f1/${props.selectedYear}/${params.racesId}/qualifying.json`;
+        const resultsUrl = `http://ergast.com/api/f1/${props.selectedYear}/${params.racesId}/results.json`;
         const responseQualifiers = await axios.get(qualifiersUrl);
         const responseResults = await axios.get(resultsUrl);
         setRaces(responseResults.data.MRData.RaceTable.Races);
