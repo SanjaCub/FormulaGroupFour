@@ -11,14 +11,12 @@ export default function AllDrivers(props) {
     const [searchResults, setSearchResults] = useState([]);
     const navigate = useNavigate();
 
-    console.log(props.searchTerm);
 
     useEffect(() => {
         getDrivers();
     }, [props.selectedYear]);
 
     useEffect(() => {
-        console.log(props.searchTerm);
         const results = drivers.filter(driver => {
             if(props.searchTerm === "") {
                 return  driver;

@@ -10,11 +10,24 @@ export default function App(props) {
 
     const [allTeams, setAllTeams] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [searchResults, setSearchResults] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
         getAllTeams();
     }, [props.selectedYear]);
+
+    useEffect(() => {
+        const results = allTeams.filter(team => {
+            if(props.searchTerm === "") {
+                return allTeams;
+            } else {
+                return team.Constructor.name.toLowerCase().includes(props.searchTerm);
+            }
+        });
+        setSearchResults(results);
+    }, [props.searchTerm, allTeams]);
+
 
     const getAllTeams = async () => {
         const response = await axios.get(`http://ergast.com/api/f1/${props.selectedYear}/constructorStandings.json`);
@@ -49,7 +62,7 @@ export default function App(props) {
                     </thead>
 
                     <tbody>
-                        {allTeams.map((team) => {
+                        {searchResults.map((team) => {
                             return (
                                 <tr key={team.position}>
 
