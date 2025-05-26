@@ -12,12 +12,24 @@ export default function TeamsDetails(props) {
   const [teamDetails, setTeamDetails] = useState([]);
   const [teamResults, setTeamResults] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [searchResults, setSearchResults] = useState([]);
   const params = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
     getTeamDetailsandResults();
   }, [props.selectedYear]);
+
+  useEffect(() => {
+        const results = teamResults.filter(teamResult => {
+            if(props.searchTerm === "") {
+                return teamResult;
+            } else {
+                return teamResult.raceName.toLowerCase().includes(props.searchTerm) 
+            }
+        });
+        setSearchResults(results);
+    }, [props.searchTerm, teamResults]);
 
 
   const getTeamDetailsandResults = async () => {
@@ -103,7 +115,7 @@ export default function TeamsDetails(props) {
           </thead>
 
           <tbody>
-            {teamResults.map((teamResult) => {
+            {searchResults.map((teamResult) => {
               return (
                 <tr key={teamResult.round}>
                   <td>{teamResult.round}</td>
