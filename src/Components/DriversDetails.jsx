@@ -17,11 +17,11 @@ export default function DriversDetails(props) {
 
     useEffect(() => {
         getDetailsAndResults();
-    }, []);
+    }, [props.selectedYear]);
 
     const getDetailsAndResults = async () => {
-        const detailsUrl = `https://ergast.com/api/f1/2013/drivers/${params.driversId}/driverStandings.json`;
-        const resultsUrl = `https://ergast.com/api/f1/2013/drivers/${params.driversId}/results.json`;
+        const detailsUrl = `https://ergast.com/api/f1/${props.selectedYear}/drivers/${params.driversId}/driverStandings.json`;
+        const resultsUrl = `https://ergast.com/api/f1/${props.selectedYear}/drivers/${params.driversId}/results.json`;
         const responseDetails = await axios.get(detailsUrl);
         const responseResults = await axios.get(resultsUrl);
         setDetails(responseDetails.data.MRData.StandingsTable.StandingsLists[0].DriverStandings);
@@ -87,7 +87,7 @@ export default function DriversDetails(props) {
                 <table className="single-table">
                     <thead>
                         <tr>
-                            <th colSpan={5}>Formula 1 2013 Results</th>
+                            <th colSpan={5}>Formula 1 {props.selectedYear} Results</th>
                         </tr>
                     </thead>
                     <tbody>
