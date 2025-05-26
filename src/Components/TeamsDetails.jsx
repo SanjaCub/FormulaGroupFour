@@ -16,12 +16,12 @@ export default function TeamsDetails(props) {
 
   useEffect(() => {
     getTeamDetailsandResults();
-  }, []);
+  }, [props.selectedYear]);
 
 
   const getTeamDetailsandResults = async () => {
-    const detailsURL = await axios.get(`http://ergast.com/api/f1/2013/constructors/${params.teamsId}/constructorStandings.json`);
-    const resultsURL = await axios.get(`http://ergast.com/api/f1/2013/constructors/${params.teamsId}/results.json`);
+    const detailsURL = await axios.get(`http://ergast.com/api/f1/${props.selectedYear}/constructors/${params.teamsId}/constructorStandings.json`);
+    const resultsURL = await axios.get(`http://ergast.com/api/f1/${props.selectedYear}/constructors/${params.teamsId}/results.json`);
 
     console.log(resultsURL.data.MRData.RaceTable.Races);
     setTeamDetails(detailsURL.data.MRData.StandingsTable.StandingsLists[0].ConstructorStandings);
@@ -92,8 +92,8 @@ export default function TeamsDetails(props) {
             <tr>
               <th>Round</th>
               <th>Grand Prix</th>
-              <th>Vettel</th>
-              <th>Webber</th>
+              <th>{teamResults[0].Results[0].Driver.familyName}</th>
+              <th>{teamResults[0].Results[1].Driver.familyName}</th>
               <th>Points</th>
             </tr>
           </thead>
