@@ -14,10 +14,10 @@ export default function App(props) {
 
     useEffect(() => {
         getAllTeams();
-    }, []);
+    }, [props.selectedYear]);
 
     const getAllTeams = async () => {
-        const response = await axios.get("http://ergast.com/api/f1/2013/constructorStandings.json");
+        const response = await axios.get(`http://ergast.com/api/f1/${props.selectedYear}/constructorStandings.json`);
         console.log(response.data);
         setIsLoading(false);
         setAllTeams(response.data.MRData.StandingsTable.StandingsLists[0].ConstructorStandings);
@@ -45,7 +45,7 @@ export default function App(props) {
 
                     <thead>
                         <tr>
-                            <th colSpan={5}>Constructors Championship Standings - 2013</th>
+                            <th colSpan={5}>Constructors Championship Standings - {props.selectedYear}</th>
                         </tr>
                     </thead>
 

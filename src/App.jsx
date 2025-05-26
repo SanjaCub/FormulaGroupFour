@@ -49,7 +49,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/drivers" element={<AllDrivers selectedYear={selectedYear} flags={flags} />} />
-        <Route path="/teams" element={<AllTeams flags={flags} />} />
+        <Route path="/teams" element={<AllTeams selectedYear={selectedYear} flags={flags} />} />
         <Route path="/races" element={<AllRaces flags={flags} />} />
         <Route path="/driverDetails/:driversId" element={<DriversDetails selectedYear={selectedYear} flags={flags} />} />
         <Route path="/teamsDetails/:teamsId" element={<TeamsDetails flags={flags} />} />
