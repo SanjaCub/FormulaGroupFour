@@ -8,7 +8,7 @@ export default function Search(props) {
          <input
          type="search"
          name="text"
-         placeholder="Enter text"
+         placeholder="Search for..."
          value={props.searchTerm}
          onChange={handleInputSearch}/>
         </>

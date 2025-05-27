@@ -20,7 +20,7 @@ export default function Year(props) {
 
     return (
         <div>
-            <label style={{ color: "white" }}>Select year:</label>
+            {/* <label style={{ color: "white" }}>SELECT YEAR:</label> */}
             <select value = {props.selectedYear} onChange={handleSelectedValue}>
                 {years.map((year) => {
                     return (

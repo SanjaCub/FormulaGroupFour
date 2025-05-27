@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, NavLink } from "react-router";
+import { Routes, Route, NavLink, useLocation } from "react-router";
 import AllDrivers from "./Components/AllDrivers";
 import AllTeams from "./Components/AllTeams";
 import AllRaces from "./Components/AllRaces";
@@ -17,11 +17,12 @@ export default function App() {
   const [flags, setFlags] = useState([]);
   const [selectedYear, setSelectedYear] = useState("2013");
   const [searchTerm, setSearchTerm] = useState("");
-
+  const location = useLocation();
 
   useEffect(() => {
     getFlags();
   }, []);
+
 
   const getFlags = async () => {
     const flagsUrl = "https://raw.githubusercontent.com/Dinuks/country-nationality-list/master/countries.json";
@@ -30,26 +31,35 @@ export default function App() {
   }
 
   return (
-    <Router>
+    < >
       <nav className="navigation">
-        <div>        <ul>
-          <li>< NavLink to="/"><img className="formula" src={`/images/F1-logo.png`} /></NavLink></li>
-        </ul>
+
+        <div className="nav-main">
           <ul>
+            <li>< NavLink to="/"><img className="formula" src={`/images/F1-logo.png`} /></NavLink></li>
+          </ul>
+
+              <ul><li><Year selectedYear={selectedYear} setSelectedYear={setSelectedYear} /></li></ul>
+           <ul>
             <li><NavLink to="/drivers">Drivers</NavLink></li>
             <li><NavLink to="/teams">Teams</NavLink></li>
             <li><NavLink to="/races">Races</NavLink></li>
-          </ul></div>
+          </ul>
+
+      
+           
+        </div>
 
         <div>
-          <ul>        <li className="year"><Year selectedYear={selectedYear} setSelectedYear={setSelectedYear} /></li>
-          <li><Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} /></li></ul></div>
-
-
+          {location.pathname !== "/" && <ul>
+            <li><Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} /></li>
+          </ul>}
+    
+        </div>
       </nav>
 
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home />}/>
         <Route path="/drivers" element={<AllDrivers searchTerm={searchTerm} selectedYear={selectedYear} flags={flags} />} />
         <Route path="/teams" element={<AllTeams searchTerm={searchTerm} selectedYear={selectedYear} flags={flags} />} />
         <Route path="/races" element={<AllRaces searchTerm={searchTerm} selectedYear={selectedYear} flags={flags} />} />
@@ -57,6 +67,6 @@ export default function App() {
         <Route path="/teams/:teamsId" element={<TeamsDetails searchTerm={searchTerm} selectedYear={selectedYear} flags={flags} />} />
         <Route path="/races/:racesId" element={<RacesDetails searchTerm={searchTerm} selectedYear={selectedYear} flags={flags} />} />
       </Routes>
-    </Router>
+    </>
   );
 }
