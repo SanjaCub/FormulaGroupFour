@@ -36,7 +36,7 @@ export default function App(props) {
     };
 
     const handleClickDetails = (id) => {
-        const link = `/teamsDetails/${id}`;
+        const link = `/teams/${id}`;
         navigate(link);
     };
 

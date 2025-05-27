@@ -12,12 +12,39 @@ export default function RacesDetails(props) {
     const [racesDetails, setRacesDetails] = useState([]);
     const [raceResults, setRaceResults] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [searchResults, setSearchResults] = useState([]);
+    const [searchResults1, setSearchResults1] = useState([]);
     const params = useParams();
     const navigate = useNavigate();
 
     useEffect(() => {
         getRacesDetailsAndResults();
     }, [props.selectedYear]);
+
+    useEffect(() => {
+        const results = racesDetails.filter(raceDetail => {
+            if (props.searchTerm === "") {
+                return raceDetail;
+            } else {
+                return raceDetail.Driver.familyName.toLowerCase().includes(props.searchTerm);
+            }
+        });
+        setSearchResults(results);
+    }, [props.searchTerm, racesDetails]);
+
+
+    useEffect(() => {
+        const results1 = raceResults.filter(raceResult => {
+            if (props.searchTerm === "") {
+                return raceResult;
+            } else {
+                return raceResult.Driver.familyName.toLowerCase().includes(props.searchTerm);
+            }
+        });
+        setSearchResults1(results1);
+    }, [props.searchTerm, raceResults]);
+
+
 
     // Quailifiers
     const getRacesDetailsAndResults = async () => {
@@ -37,12 +64,12 @@ export default function RacesDetails(props) {
     };
 
     const handleClickDetails = (id) => {
-        const link = `/driverDetails/${id}`;
+        const link = `/drivers/${id}`;
         navigate(link);
     };
 
     const handleClickTeamDetails = (id) => {
-        const link = `/teamsDetails/${id}`;
+        const link = `/teams/${id}`;
         navigate(link);
     };
 
@@ -113,7 +140,7 @@ export default function RacesDetails(props) {
                             <th>Team</th>
                             <th>Best Time</th>
                         </tr>
-                        {racesDetails.map((raceDetail) => {
+                        {searchResults.map((raceDetail) => {
                             const lapTimes = [raceDetail.Q1, raceDetail.Q2, raceDetail.Q3].sort();
                             return (
                                 <tr key={raceDetail.position}>
@@ -149,7 +176,7 @@ export default function RacesDetails(props) {
                             <th>Points</th>
                         </tr>
 
-                        {raceResults.map((raceResult) => {
+                        {searchResults1.map((raceResult) => {
                             return (
 
                                 <tr key={raceResult.position}>

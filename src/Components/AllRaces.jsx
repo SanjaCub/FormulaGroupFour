@@ -37,12 +37,12 @@ export default function AllRaces(props) {
     };
 
     const handleClickGrandPrix = (id) => {
-        const link = `/racesDetails/${id}`
+        const link = `/races/${id}`
         navigate(link);
     }
 
     const handleClickDriverDetails = (id) => {
-        const link = `/driverDetails/${id}`;
+        const link = `/drivers/${id}`;
         navigate(link);
     };
 

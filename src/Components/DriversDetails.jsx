@@ -47,12 +47,12 @@ export default function DriversDetails(props) {
     };
 
     const handleClickTeamDetails = (id) => {
-        const link = `/teamsDetails/${id}`;
+        const link = `/teams/${id}`;
         navigate(link);
     };
 
     const handleClickRaceDetails = (id) => {
-        const link = `/racesDetails/${id}`;
+        const link = `/races/${id}`;
         navigate(link);
     };
 

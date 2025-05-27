@@ -18,7 +18,7 @@ export default function App() {
   const [selectedYear, setSelectedYear] = useState("2013");
   const [searchTerm, setSearchTerm] = useState("");
 
-  
+
   useEffect(() => {
     getFlags();
   }, []);
@@ -32,28 +32,30 @@ export default function App() {
   return (
     <Router>
       <nav className="navigation">
-
-        <ul>
+        <div>        <ul>
           <li>< NavLink to="/"><img className="formula" src={`/images/F1-logo.png`} /></NavLink></li>
         </ul>
-        <ul>
-          <li><NavLink to="/drivers">Drivers</NavLink></li>
-          <li><NavLink to="/teams">Teams</NavLink></li>
-          <li><NavLink to="/races">Races</NavLink></li>
-          <li className="year"><Year selectedYear={selectedYear} setSelectedYear={setSelectedYear} /></li>
-          <li><Search searchTerm={searchTerm} setSearchTerm={setSearchTerm}/></li>
-        </ul>
+          <ul>
+            <li><NavLink to="/drivers">Drivers</NavLink></li>
+            <li><NavLink to="/teams">Teams</NavLink></li>
+            <li><NavLink to="/races">Races</NavLink></li>
+          </ul></div>
 
-        </nav>
+        <div>
+          <ul>        <li className="year"><Year selectedYear={selectedYear} setSelectedYear={setSelectedYear} /></li>
+          <li><Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} /></li></ul></div>
+
+
+      </nav>
 
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/drivers" element={<AllDrivers searchTerm={searchTerm} selectedYear={selectedYear} flags={flags} />} />
         <Route path="/teams" element={<AllTeams searchTerm={searchTerm} selectedYear={selectedYear} flags={flags} />} />
         <Route path="/races" element={<AllRaces searchTerm={searchTerm} selectedYear={selectedYear} flags={flags} />} />
-        <Route path="/driverDetails/:driversId" element={<DriversDetails searchTerm={searchTerm} selectedYear={selectedYear} flags={flags} />} />
-        <Route path="/teamsDetails/:teamsId" element={<TeamsDetails searchTerm={searchTerm} selectedYear={selectedYear} flags={flags} />} />
-        <Route path="/racesDetails/:racesId" element={<RacesDetails searchTerm={searchTerm} selectedYear={selectedYear} flags={flags} />} />
+        <Route path="/drivers/:driversId" element={<DriversDetails searchTerm={searchTerm} selectedYear={selectedYear} flags={flags} />} />
+        <Route path="/teams/:teamsId" element={<TeamsDetails searchTerm={searchTerm} selectedYear={selectedYear} flags={flags} />} />
+        <Route path="/races/:racesId" element={<RacesDetails searchTerm={searchTerm} selectedYear={selectedYear} flags={flags} />} />
       </Routes>
     </Router>
   );

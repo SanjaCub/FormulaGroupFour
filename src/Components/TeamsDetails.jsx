@@ -46,7 +46,7 @@ export default function TeamsDetails(props) {
   };
 
   const handleClickGrandPrix = (id) => {
-    const link = `/racesDetails/${id}`
+    const link = `/races/${id}`
     navigate(link);
   }
 

@@ -251,6 +251,10 @@ th {
     color: #E10600;
 }
 
+.navigation a.active {
+    color: #E10600;
+}
+
 h1 {
     padding: 30px;
     font-size: 40px;

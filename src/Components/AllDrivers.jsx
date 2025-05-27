@@ -36,12 +36,12 @@ export default function AllDrivers(props) {
 
 
     const handleClickDetails = (id) => {
-        const link = `/driverDetails/${id}`;
+        const link = `/drivers/${id}`;
         navigate(link);
     };
 
     const handleClickTeamDetails = (id) => {
-        const link = `/teamsDetails/${id}`;
+        const link = `/teams/${id}`;
         navigate(link);
     };
 
