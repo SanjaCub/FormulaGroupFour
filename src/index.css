@@ -176,7 +176,7 @@ td {
     border: 1px solid black;
     padding: 10px;
     line-height: 10px;
-    font-size: 14px;
+    font-size: 12px;
 
 }
 
@@ -191,7 +191,7 @@ table tr:nth-child(odd) {
 
 th {
     color: #fff;
-    font-size: 20px;
+    font-size: 16px;
     background-color: #E10600;
     padding: 20px;
 }
@@ -426,13 +426,56 @@ h1 {
 }
 
 .dn {
-display: none;
+    display: none;
 }
-
 
 @media screen and (max-width: 1333px) {
     .info-wraper {
         width: 20%;
+    }
+}
+
+
+@media screen and (max-width: 1253px) {
+
+    th {
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+}
+
+@media screen and (max-width: 1133px) {
+    .details-container {
+        display: block;
+        box-sizing: border-box;
+    }
+
+    .table-container table:nth-child(odd) {
+        margin-bottom: 2%;
+    }
+
+    .details-container {
+        display: block;
+        box-sizing: border-box;
+    }
+
+    .info-wraper {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        gap: 5%;
+        width: unset;
+        padding: 2%;
+    }
+
+    .info-containerOne {
+        flex-direction: row;
+        gap: 5%;
+    }
+
+    .info-containerTwo {
+        width: 250px;
     }
 }
 
@@ -462,22 +505,27 @@ display: none;
         height: calc(100vh - 160px);
     }
 
-    .info-wraper {
+    /* .info-wraper {
         width: 30%;
-    }
+    } */
 
-    .flag-container {
-        font-size: 12px;
-    }
-
-    .single-table th {
+    th {
         font-size: 16px;
     }
 
     td {
-        /* border: 1px solid black;
-        padding: 10px; */
         font-size: 12px;
 
     }
+}
+
+@media screen and (max-width: 768px) {
+
+    /* .info-wraper {
+        width: 20%;
+    } */
+    .navigation {
+        /* display: block; */
+    }
+
 }

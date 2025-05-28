@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Loader from "./Loader";
 import { useParams, useNavigate } from "react-router";
 import Flag from "react-flagkit";
@@ -15,6 +15,7 @@ export default function DriversDetails(props) {
     const [searchResults, setSearchResults] = useState([]);
     const params = useParams();
     const navigate = useNavigate();
+    const imgRef = useRef();
 
     useEffect(() => {
         getDetailsAndResults();
@@ -22,7 +23,7 @@ export default function DriversDetails(props) {
 
     useEffect(() => {
         const driverResults = results.filter(result => {
-            if(props.searchTerm === "") {
+            if (props.searchTerm === "") {
                 return result;
             } else {
                 return result.raceName.toLowerCase().includes(props.searchTerm);
@@ -36,7 +37,7 @@ export default function DriversDetails(props) {
         const resultsUrl = `https://ergast.com/api/f1/${props.selectedYear}/drivers/${params.driversId}/results.json`;
         const responseDetails = await axios.get(detailsUrl);
         const responseResults = await axios.get(resultsUrl);
-        setDetails(responseDetails.data.MRData.StandingsTable.StandingsLists[0].DriverStandings);
+        setDetails(responseDetails.data.MRData.StandingsTable.StandingsLists[0]?.DriverStandings);
         setResults(responseResults.data.MRData.RaceTable.Races);
         setIsLoading(false);
     };
@@ -57,17 +58,27 @@ export default function DriversDetails(props) {
     };
 
 
+
+    const imageWithFallback = (src) => {
+        const onImageError = () => imgRef.current.src = "/images/avatar.png";
+        return (
+            <img ref={imgRef} src={src} onError={onImageError} />
+        )
+    }
+
+
     if (isLoading) {
         return <Loader />
     }
 
+
     return (
         <div className="details-container">
-            {details.map((detail) => {
+            {details?.map((detail) => {
                 return (
                     <div className="info-wraper" key={detail.position}>
                         <div className="info-containerOne">
-                            <div className="driver-img"> <img src={`/images/${detail.Driver.driverId}.jpg`} alt="" /></div>
+                            <div className="driver-img" ><>{imageWithFallback(`/images/${detail.Driver.driverId}.jpg`)}</> </div>
                             <div >
                                 <h1 className="title">{detail.Driver.givenName} {detail.Driver.familyName}</h1>
                                 <div >< Flag country={getCountryFlag(detail.Driver.nationality, props.flags)} className="info-flag" /></div>
@@ -110,11 +121,11 @@ export default function DriversDetails(props) {
                             <td>Grid</td>
                             <td>Race</td>
                         </tr>
-                        {searchResults.map((result) => {
+                        {searchResults.length > 0 ? searchResults.map((result) => {
                             return (
                                 <tr key={result.round}>
                                     <td>{result.round}</td>
-                                    <td onClick={()=> handleClickRaceDetails(result.round)} className="details">
+                                    <td onClick={() => handleClickRaceDetails(result.round)} className="details">
                                         <div className="flag-container">
                                             < Flag country={getCountryPrixFlag(result.Circuit.Location.country, props.flags)} />{result.raceName}
                                         </div>
@@ -124,7 +135,7 @@ export default function DriversDetails(props) {
                                     <td style={{ backgroundColor: getBgColor(Number(result.Results[0].position)) }}> {result.Results[0].position}</td>
                                 </tr>
                             );
-                        })}
+                        }) : <tr><td colSpan={5}>No data</td></tr>}
                     </tbody>
                 </table>
             </div>
