@@ -131,9 +131,9 @@ export default function TeamsDetails(props) {
 
                   {/* Flags */}
                   <td onClick={() => handleClickGrandPrix(teamResult.round)} className="details"><div className="flag-container"><Flag country={getCountryPrixFlag(teamResult.Circuit.Location.country, props.flags)} /> {teamResult.raceName}</div></td>
-                  <td style={{ backgroundColor: getBgColor(Number(teamResult.Results[0].position)) }}> {teamResult.Results[0].position}</td>
-                  <td style={{ backgroundColor: getBgColor(Number(teamResult.Results[1].position)) }}> {teamResult.Results[1].position}</td>
-                  <td>{Number(teamResult.Results[0].points) + Number(teamResult.Results[1].points)}</td>
+                  <td style={{ backgroundColor: getBgColor(Number(teamResult.Results[0]?.position !=undefined ? teamResult.Results[0].position : "0")) }}> {teamResult.Results[0]?.position !=undefined ? teamResult.Results[0].position : 0}</td>
+                  <td style={{ backgroundColor: getBgColor(Number(teamResult.Results[1]?.position !=undefined ? teamResult.Results[1].position : "0")) }}> {teamResult.Results[1]?.position !=undefined ? teamResult.Results[1].position : 0}</td>
+                  <td>{Number(teamResult.Results[0]?.points ? teamResult.Results[0]?.points : 0) + Number(teamResult.Results[1]?.points ? teamResult.Results[1]?.points : 0)}</td>
                 </tr>
               );
             }) : <tr><td colSpan={5}>No data</td></tr>}
