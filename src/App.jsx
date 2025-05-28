@@ -39,27 +39,30 @@ export default function App() {
             <li>< NavLink to="/"><img className="formula" src={`/images/F1-logo.png`} /></NavLink></li>
           </ul>
 
-              <ul><li><Year selectedYear={selectedYear} setSelectedYear={setSelectedYear} /></li></ul>
-           <ul>
+          <ul>
+            <li><Year selectedYear={selectedYear} setSelectedYear={setSelectedYear} /></li>
+          </ul>
+          
+          <ul className="menu">
             <li><NavLink to="/drivers">Drivers</NavLink></li>
             <li><NavLink to="/teams">Teams</NavLink></li>
             <li><NavLink to="/races">Races</NavLink></li>
           </ul>
 
-      
-           
+
+
         </div>
 
         <div>
           {location.pathname !== "/" && <ul>
             <li><Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} /></li>
           </ul>}
-    
+
         </div>
       </nav>
 
       <Routes>
-        <Route path="/" element={<Home />}/>
+        <Route path="/" element={<Home />} />
         <Route path="/drivers" element={<AllDrivers searchTerm={searchTerm} selectedYear={selectedYear} flags={flags} />} />
         <Route path="/teams" element={<AllTeams searchTerm={searchTerm} selectedYear={selectedYear} flags={flags} />} />
         <Route path="/races" element={<AllRaces searchTerm={searchTerm} selectedYear={selectedYear} flags={flags} />} />

@@ -86,14 +86,15 @@ export default function RacesDetails(props) {
                         {/* info wrapper */}
 
                         <div className="info-containerOne">
-
                             <div>
-                                <h1 className="title">{race.raceName}</h1>
-                            </div>
+                                <div>
+                                    <h1 className="title">{race.raceName}</h1>
+                                </div>
 
-                            {/* flag */}
-                            <div>
-                                <Flag country={getCountryPrixFlag(race.Circuit.Location.country, props.flags)} className="info-flag" />
+                                {/* flag */}
+                                <div>
+                                    <Flag country={getCountryPrixFlag(race.Circuit.Location.country, props.flags)} className="info-flag" />
+                                </div>
                             </div>
                         </div>
 
