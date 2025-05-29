@@ -244,6 +244,43 @@ th {
     display: inline;
 }
 
+
+/* Hamburger menu */
+
+.hamburger {
+    /* display: flex; */
+    display: none;
+    width: 2rem;
+    height: 2rem;
+    justify-content: space-around;
+    flex-flow: column nowrap;
+    z-index: 10;
+}
+
+.burger {
+    width: 2rem;
+    height: 0.25rem;
+    border-radius: 10px;
+    background-color: white;
+    transform-origin: 1px;
+    transition: all 0.3s linear;
+}
+
+
+.menu ul {
+    display: flex;
+    background-color: #15151e;
+    height: 35vh;
+    width: 20vw;
+    margin-top: 50px;
+    position: absolute;
+}
+
+/* .none {
+    display: none;
+} */
+
+
 select {
     min-width: 80px;
     text-align: center;
@@ -304,6 +341,22 @@ input {
 .navigation a.active {
     color: #E10600;
 }
+
+.flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.ul {
+    background-color: #15151e;
+    height: 35vh;
+    width: 20vw;
+    margin-top: 50px;
+    position: absolute;
+}
+
 
 h1 {
     padding: 30px;
@@ -521,11 +574,69 @@ h1 {
 
 @media screen and (max-width: 768px) {
 
-    /* .info-wraper {
-        width: 20%;
-    } */
-    .navigation {
-        /* display: block; */
+    .hamburger {
+        display: flex;
+        z-index: 10;
     }
 
+    input {
+        display: none;
+    }
+
+    .none ul {
+        display: none;
+        background-color: #15151e;
+        height: 35vh;
+        width: 20vw;
+        margin-top: 50px;
+        position: absolute;
+    }
+
+    .menu ul {
+        display: flex;
+        background-color: #15151e;
+        height: 20vh;
+        width: 20vw;
+        margin-top: 50px;
+        position: absolute;
+        flex-direction: column;
+        row-gap: 10px;
+        justify-content: space-evenly;
+        padding: 2%;
+        top: 0;
+        right: 0;
+    }
+
+    .flex {
+        display: flex;
+    }
+
+
+    .nav-main {
+        width: 100%;
+    }
+
+    .nav {
+        position: relative;
+    }
+}
+
+@media screen and (max-width: 475px) {
+
+    .navigation a {
+        font-size: 10px;
+        padding: 12px 0px;
+    }
+
+    h1 {
+        font-size: 21px;
+    }
+
+    th {
+        font-size: 12px;
+    }
+
+    td {
+        font-size: 10px;
+    }
 }

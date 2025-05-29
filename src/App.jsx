@@ -10,6 +10,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import Year from "./Components/Year";
 import Search from "./Components/Search";
+import Hamburger from "./Components/Hamburger";
 
 
 export default function App() {
@@ -17,6 +18,7 @@ export default function App() {
   const [flags, setFlags] = useState([]);
   const [selectedYear, setSelectedYear] = useState("2013");
   const [searchTerm, setSearchTerm] = useState("");
+  const [hamburgerOpen, setHamburgerOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -30,11 +32,16 @@ export default function App() {
     setFlags(responseFlag.data);
   }
 
+  const toggleHamburger = () => {
+    setHamburgerOpen(!hamburgerOpen)
+  }
+
   return (
     < >
       <nav className="navigation">
 
         <div className="nav-main">
+          <div className="flex">
           <ul>
             <li>< NavLink to="/"><img className="formula" src={`/images/F1-logo.png`} /></NavLink></li>
           </ul>
@@ -42,14 +49,17 @@ export default function App() {
           <ul>
             <li><Year selectedYear={selectedYear} setSelectedYear={setSelectedYear} /></li>
           </ul>
-          
-          <ul className="menu">
-            <li><NavLink to="/drivers">Drivers</NavLink></li>
-            <li><NavLink to="/teams">Teams</NavLink></li>
-            <li><NavLink to="/races">Races</NavLink></li>
+        </div>
+          <div className= {hamburgerOpen ? "menu" : "none"} >
+          <ul >
+            <li ><NavLink to="/drivers">Drivers</NavLink></li>
+            <li ><NavLink to="/teams">Teams</NavLink></li>
+            <li ><NavLink to="/races">Races</NavLink></li>
           </ul>
+          
+          <div  onClick={toggleHamburger} > <Hamburger /> </div>
 
-
+          </div>
 
         </div>
 
@@ -70,6 +80,7 @@ export default function App() {
         <Route path="/teams/:teamsId" element={<TeamsDetails searchTerm={searchTerm} selectedYear={selectedYear} flags={flags} />} />
         <Route path="/races/:racesId" element={<RacesDetails searchTerm={searchTerm} selectedYear={selectedYear} flags={flags} />} />
       </Routes>
+
     </>
   );
 }
