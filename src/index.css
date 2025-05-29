@@ -166,7 +166,6 @@ body {
 
 
 table {
-    /* width: 100%; */
     border-collapse: collapse;
     text-align: center;
 }
@@ -174,9 +173,10 @@ table {
 th,
 td {
     border: 1px solid black;
-    padding: 10px;
+    padding: 12px;
     line-height: 10px;
     font-size: 12px;
+    vertical-align: middle;
 
 }
 
@@ -193,7 +193,6 @@ th {
     color: #fff;
     font-size: 16px;
     background-color: #E10600;
-    padding: 20px;
 }
 
 .flag-container {
@@ -248,7 +247,6 @@ th {
 /* Hamburger menu */
 
 .hamburger {
-    /* display: flex; */
     display: none;
     width: 2rem;
     height: 2rem;
@@ -275,11 +273,6 @@ th {
     margin-top: 50px;
     position: absolute;
 }
-
-/* .none {
-    display: none;
-} */
-
 
 select {
     min-width: 80px;
@@ -407,6 +400,7 @@ h1 {
     width: 100%;
     background-color: #15151e;
     padding: 2%;
+    box-sizing: border-box;
 }
 
 .two-table-container {
@@ -492,8 +486,9 @@ h1 {
 @media screen and (max-width: 1253px) {
 
     th {
-        font-size: 12px;
+        font-size: 15px;
         font-weight: 700;
+        padding: 7px;
     }
 
 }
@@ -558,16 +553,14 @@ h1 {
         height: calc(100vh - 160px);
     }
 
-    /* .info-wraper {
-        width: 30%;
-    } */
-
     th {
         font-size: 16px;
+        padding: 10px;
     }
 
     td {
-        font-size: 12px;
+        font-size: 14px;
+        line-height: 14px;
 
     }
 }
@@ -619,6 +612,51 @@ h1 {
     .nav {
         position: relative;
     }
+
+    td {
+        font-size: 12px;
+        line-height: 12px;
+    }
+}
+
+@media screen and (max-width: 675px) {
+
+    .home {
+        height: calc(100vh - 135px);
+    }
+
+    h1 {
+        font-size: 23px;
+    }
+
+    .info-wraper {
+        padding: 5%;
+        flex-direction: column;
+    }
+
+    .info-containerOne {
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: row;
+        gap: 13%;
+        justify-content: center;
+
+    }
+
+}
+
+@media screen and (max-width: 575px) {
+
+    th {
+        font-size: 12px;
+        padding: 4px;
+    }
+
+    td {
+        font-size: 10px;
+
+    }
+
 }
 
 @media screen and (max-width: 475px) {

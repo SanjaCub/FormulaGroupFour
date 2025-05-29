@@ -36,28 +36,32 @@ export default function App() {
     setHamburgerOpen(!hamburgerOpen)
   }
 
+  const closeHamuburger = () => {
+    setHamburgerOpen(false)
+  }
+
   return (
     < >
       <nav className="navigation">
 
         <div className="nav-main">
           <div className="flex">
-          <ul>
-            <li>< NavLink to="/"><img className="formula" src={`/images/F1-logo.png`} /></NavLink></li>
-          </ul>
+            <ul>
+              <li>< NavLink to="/"><img className="formula" src={`/images/F1-logo.png`} /></NavLink></li>
+            </ul>
 
-          <ul>
-            <li><Year selectedYear={selectedYear} setSelectedYear={setSelectedYear} /></li>
-          </ul>
-        </div>
-          <div className= {hamburgerOpen ? "menu" : "none"} >
-          <ul >
-            <li onClick={toggleHamburger} ><NavLink to="/drivers">Drivers</NavLink></li>
-            <li onClick={toggleHamburger} ><NavLink to="/teams">Teams</NavLink></li>
-            <li onClick={toggleHamburger} ><NavLink to="/races">Races</NavLink></li>
-          </ul>
-          
-          <div className="details" onClick={toggleHamburger} > <Hamburger /> </div>
+            <ul>
+              <li><Year selectedYear={selectedYear} setSelectedYear={setSelectedYear} /></li>
+            </ul>
+          </div>
+          <div className={hamburgerOpen ? "menu" : "none"} >
+            <ul >
+              <li onClick={closeHamuburger} ><NavLink to="/drivers">Drivers</NavLink></li>
+              <li onClick={closeHamuburger} ><NavLink to="/teams">Teams</NavLink></li>
+              <li onClick={closeHamuburger} ><NavLink to="/races">Races</NavLink></li>
+            </ul>
+
+            <div className="details" onClick={toggleHamburger} > <Hamburger /> </div>
 
           </div>
 
