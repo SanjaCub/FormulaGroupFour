@@ -52,12 +52,12 @@ export default function App() {
         </div>
           <div className= {hamburgerOpen ? "menu" : "none"} >
           <ul >
-            <li ><NavLink to="/drivers">Drivers</NavLink></li>
-            <li ><NavLink to="/teams">Teams</NavLink></li>
-            <li ><NavLink to="/races">Races</NavLink></li>
+            <li onClick={toggleHamburger} ><NavLink to="/drivers">Drivers</NavLink></li>
+            <li onClick={toggleHamburger} ><NavLink to="/teams">Teams</NavLink></li>
+            <li onClick={toggleHamburger} ><NavLink to="/races">Races</NavLink></li>
           </ul>
           
-          <div  onClick={toggleHamburger} > <Hamburger /> </div>
+          <div className="details" onClick={toggleHamburger} > <Hamburger /> </div>
 
           </div>
 
