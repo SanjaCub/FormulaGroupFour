@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import Loader from "./Loader";
 import { useParams, useNavigate } from "react-router";
@@ -15,27 +15,28 @@ export default function TeamsDetails(props) {
   const [searchResults, setSearchResults] = useState([]);
   const params = useParams();
   const navigate = useNavigate();
+  const imgRef = useRef();
 
   useEffect(() => {
     getTeamDetailsandResults();
   }, [props.selectedYear]);
 
   useEffect(() => {
-        const results = teamResults.filter(teamResult => {
-            if(props.searchTerm === "") {
-                return teamResult;
-            } else {
-                return teamResult.raceName.toLowerCase().includes(props.searchTerm) 
-            }
-        });
-        setSearchResults(results);
-    }, [props.searchTerm, teamResults]);
+    const results = teamResults.filter(teamResult => {
+      if (props.searchTerm === "") {
+        return teamResult;
+      } else {
+        return teamResult.raceName.toLowerCase().includes(props.searchTerm)
+      }
+    });
+    setSearchResults(results);
+  }, [props.searchTerm, teamResults]);
 
 
   const getTeamDetailsandResults = async () => {
     const detailsURL = await axios.get(`http://ergast.com/api/f1/${props.selectedYear}/constructors/${params.teamsId}/constructorStandings.json`);
     const resultsURL = await axios.get(`http://ergast.com/api/f1/${props.selectedYear}/constructors/${params.teamsId}/results.json`);
-    setTeamDetails(detailsURL.data.MRData.StandingsTable.StandingsLists[0].ConstructorStandings);
+    setTeamDetails(detailsURL.data.MRData.StandingsTable.StandingsLists[0]?.ConstructorStandings);
     setTeamResults(resultsURL.data.MRData.RaceTable.Races);
     setIsLoading(false);
   };
@@ -50,6 +51,14 @@ export default function TeamsDetails(props) {
     navigate(link);
   }
 
+  const imageWithFallback = (src) => {
+    const onImageError = () => imgRef.current.src = "/images/team.png";
+    return (
+      <img ref={imgRef} src={src} onError={onImageError} />
+    )
+  }
+
+
   if (isLoading) {
     return <Loader />;
   };
@@ -59,11 +68,11 @@ export default function TeamsDetails(props) {
     <div className="details-container">
       {/*Team Details*/}
 
-      {teamDetails.map((teamDetail) => {
+      {teamDetails?.map((teamDetail) => {
         return (
           <div className="info-wraper" key={teamDetail.Constructor.constructorId}>
             <div className="info-containerOne">
-              <div className="team-img"><img src={`/images/${teamDetail.Constructor.constructorId}.png`} /></div>
+              <div className="team-img"><>{imageWithFallback(`/images/${teamDetail.Constructor.constructorId}.png`)} </></div>
               <div >
 
                 {/* Flags */}
@@ -108,26 +117,26 @@ export default function TeamsDetails(props) {
             <tr>
               <th>Round</th>
               <th>Grand Prix</th>
-              <th>{teamResults[0].Results[0].Driver.familyName}</th>
-              <th>{teamResults[0].Results[1].Driver.familyName}</th>
+              <th>{teamResults[0]?.Results[0].Driver.familyName !=undefined ? teamResults[0].Results[0].Driver.familyName : "Driver 1"}</th>
+              <th>{teamResults[0]?.Results[1].Driver.familyName !=undefined ? teamResults[0].Results[1].Driver.familyName : "Driver 2"}</th>
               <th>Points</th>
             </tr>
           </thead>
 
           <tbody>
-            {searchResults.map((teamResult) => {
+            {searchResults.length > 0 ? searchResults.map((teamResult) => {
               return (
                 <tr key={teamResult.round}>
                   <td>{teamResult.round}</td>
 
                   {/* Flags */}
-                  <td onClick={() => handleClickGrandPrix(teamResult.round)}  className="details"><div className="flag-container"><Flag country={getCountryPrixFlag(teamResult.Circuit.Location.country, props.flags)} /> {teamResult.raceName}</div></td>
-                  <td style={{ backgroundColor: getBgColor(Number(teamResult.Results[0].position)) }}> {teamResult.Results[0].position}</td>
-                  <td style={{ backgroundColor: getBgColor(Number(teamResult.Results[1].position)) }}> {teamResult.Results[1].position}</td>
-                  <td>{Number(teamResult.Results[0].points) + Number(teamResult.Results[1].points)}</td>
+                  <td onClick={() => handleClickGrandPrix(teamResult.round)} className="details"><div className="flag-container"><Flag country={getCountryPrixFlag(teamResult.Circuit.Location.country, props.flags)} /> {teamResult.raceName}</div></td>
+                  <td style={{ backgroundColor: getBgColor(Number(teamResult.Results[0]?.position !=undefined ? teamResult.Results[0].position : "0")) }}> {teamResult.Results[0]?.position !=undefined ? teamResult.Results[0].position : 0}</td>
+                  <td style={{ backgroundColor: getBgColor(Number(teamResult.Results[1]?.position !=undefined ? teamResult.Results[1].position : "0")) }}> {teamResult.Results[1]?.position !=undefined ? teamResult.Results[1].position : 0}</td>
+                  <td>{Number(teamResult.Results[0]?.points ? teamResult.Results[0]?.points : 0) + Number(teamResult.Results[1]?.points ? teamResult.Results[1]?.points : 0)}</td>
                 </tr>
               );
-            })}
+            }) : <tr><td colSpan={5}>No data</td></tr>}
           </tbody>
         </table>
       </div>
