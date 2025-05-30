@@ -29,7 +29,6 @@ export default function App() {
   useEffect(() => {
     document.body.addEventListener('click', (event) => {
       const isToggleClick = event.target.closest(".menu");
-      console.log(isToggleClick);
       if (!isToggleClick) {closeHamuburger()};
      })
   }, []);
