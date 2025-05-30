@@ -34,7 +34,7 @@ export default function RacesDetails(props) {
 
 
     useEffect(() => {
-        const results1 = raceResults.filter(raceResult => {
+        const results1 = raceResults?.filter(raceResult => {
             if (props.searchTerm === "") {
                 return raceResult;
             } else {
@@ -54,7 +54,7 @@ export default function RacesDetails(props) {
         const responseResults = await axios.get(resultsUrl);
         setRaces(responseResults.data.MRData.RaceTable.Races);
         setRacesDetails(responseQualifiers.data.MRData.RaceTable.Races[0]?.QualifyingResults);
-        setRaceResults(responseResults.data.MRData.RaceTable.Races[0].Results);
+        setRaceResults(responseResults.data.MRData.RaceTable.Races[0]?.Results);
         setIsLoading(false);
     };
 
@@ -177,7 +177,7 @@ export default function RacesDetails(props) {
                             <th>Points</th>
                         </tr>
 
-                        {searchResults1.map((raceResult) => {
+                        {searchResults1?.length > 0 ? searchResults1.map((raceResult) => {
                             return (
 
                                 <tr key={raceResult.position}>
@@ -193,7 +193,7 @@ export default function RacesDetails(props) {
                                 </tr>
 
                             );
-                        })}
+                        }) : <tr><td colSpan={5}>No data</td></tr>}
                     </tbody>
                 </table>
             </div>
