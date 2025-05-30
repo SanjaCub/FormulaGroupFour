@@ -284,6 +284,7 @@ select {
     border-style: none;
     padding: 5px 5px 5px 0px;
     font-size: 16px;
+    outline: none;
 }
 
 /* width */
@@ -401,6 +402,7 @@ h1 {
     background-color: #15151e;
     padding: 2%;
     box-sizing: border-box;
+    align-items: start;
 }
 
 .two-table-container {
@@ -586,12 +588,7 @@ h1 {
     }
 
     .menu ul {
-        display: flex;
-        background-color: #15151e;
         height: 20vh;
-        width: 20vw;
-        margin-top: 50px;
-        position: absolute;
         flex-direction: column;
         row-gap: 10px;
         justify-content: space-evenly;

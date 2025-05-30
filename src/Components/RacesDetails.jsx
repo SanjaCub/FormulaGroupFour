@@ -22,7 +22,7 @@ export default function RacesDetails(props) {
     }, [props.selectedYear]);
 
     useEffect(() => {
-        const results = racesDetails.filter(raceDetail => {
+        const results = racesDetails?.filter(raceDetail => {
             if (props.searchTerm === "") {
                 return raceDetail;
             } else {
@@ -53,7 +53,7 @@ export default function RacesDetails(props) {
         const responseQualifiers = await axios.get(qualifiersUrl);
         const responseResults = await axios.get(resultsUrl);
         setRaces(responseResults.data.MRData.RaceTable.Races);
-        setRacesDetails(responseQualifiers.data.MRData.RaceTable.Races[0].QualifyingResults);
+        setRacesDetails(responseQualifiers.data.MRData.RaceTable.Races[0]?.QualifyingResults);
         setRaceResults(responseResults.data.MRData.RaceTable.Races[0].Results);
         setIsLoading(false);
     };
@@ -141,7 +141,7 @@ export default function RacesDetails(props) {
                             <th>Team</th>
                             <th>Best Time</th>
                         </tr>
-                        {searchResults.map((raceDetail) => {
+                        { searchResults?.length > 0 ? searchResults?.map((raceDetail) => {
                             const lapTimes = [raceDetail.Q1, raceDetail.Q2, raceDetail.Q3].sort();
                             return (
                                 <tr key={raceDetail.position}>
@@ -155,7 +155,7 @@ export default function RacesDetails(props) {
                                     <td>{lapTimes[0]}</td>
                                 </tr>
                             );
-                        })}
+                        }) : <tr><td colSpan={5}>No data</td></tr>}
 
                     </tbody>
                 </table>

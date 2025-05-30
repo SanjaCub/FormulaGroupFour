@@ -26,6 +26,16 @@ export default function App() {
   }, []);
 
 
+  useEffect(() => {
+    document.body.addEventListener('click', (event) => {
+      const isToggleClick = event.target.closest(".menu");
+      console.log(isToggleClick);
+      if (!isToggleClick) {closeHamuburger()};
+     })
+  }, []);
+
+
+
   const getFlags = async () => {
     const flagsUrl = "https://raw.githubusercontent.com/Dinuks/country-nationality-list/master/countries.json";
     const responseFlag = await axios.get(flagsUrl);
